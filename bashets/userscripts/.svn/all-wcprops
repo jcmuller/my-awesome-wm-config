@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/30/trunk/userscripts
+END
+forecast.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/10/trunk/userscripts/forecast.sh
+END
+cpu.sh
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/13/trunk/userscripts/cpu.sh
+END
+vollevel.sh
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/8/trunk/userscripts/vollevel.sh
+END
+mpd.awk
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/8/trunk/userscripts/mpd.awk
+END
+battery.sh
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/8/trunk/userscripts/battery.sh
+END
+fullcast.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/30/trunk/userscripts/fullcast.sh
+END
+date.sh
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/23/trunk/userscripts/date.sh
+END
+mem.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/9/trunk/userscripts/mem.sh
+END
+filesys.sh
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/9/trunk/userscripts/filesys.sh
+END
+mpd.sh
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/23/trunk/userscripts/mpd.sh
+END
+checkmail.sh
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/30/trunk/userscripts/checkmail.sh
+END
+ps.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/30/trunk/userscripts/ps.sh
+END
+xkb.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/8/trunk/userscripts/xkb.sh
+END

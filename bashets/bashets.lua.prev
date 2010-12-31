@@ -1,0 +1,228 @@
+------------------------------------------------------------------
+-- Bashets - use your shellscript's output in Awesome3 widgets
+--
+-- @author Anton Lobov &lt;ahmad200512@yandex.ru&gt;
+-- @copyright 2009 Anton Lobov
+-- @license GPLv2
+-- @release 0.1aw3
+-- @todo Non-text widget support: progressbar and graph
+------------------------------------------------------------------
+
+-- Grab only needed enviroment
+local awful = require("awful")
+local string = string
+local io = io
+local table = table
+local pairs = pairs
+local coroutine = coroutine
+
+--- Bashets module
+module("bashets")
+
+-- Default paths (could be altered by 'configure' script)
+local script_path = "/usr/share/awesome/bashets/"
+local tmp_folder = "/tmp/"
+
+-- Utility functions table
+local util = {}
+
+--- Split string by separator into table
+-- @param str String to split
+-- @param sep Separator to use
+function util.split(str, sep)
+	parts = {} --parts array
+	first = 1
+	ostart, oend = string.find(str, sep, first, true) --regexp disabled search
+
+	while ostart do
+		part = string.sub(str, first, ostart - 1)
+		table.insert(parts, part)
+		first = oend + 1
+		ostart, oend = string.find(str, sep, first, true)
+	end
+
+	part = string.sub(str, first)
+	table.insert(parts, part)
+
+	return parts
+end
+
+--- Execute a command and return it's output
+-- @param script Script to execute
+function util.exec(script)
+	local fh = io.popen(script)
+	local str = ""
+
+	-- Newlines are replaced with spaces
+	for i in fh:lines() do
+		str = str .. " " .. i
+	end
+
+	io.close(fh)
+	return str
+end
+
+--- Execute a command and write it's output to temporary file
+-- @param script Script to execute
+-- @param file File for script output
+function util.exectmp(script, file)
+	-- Maybe there is a more elegant way to correctly execute commands
+	-- and do not hang Awesome?
+	--io.popen(script .. " > " .. file)
+	awful.util.spawn_with_shell(script .. " > " .. file)
+end
+
+--- Read temporary file to a single line
+-- @param file File to be read
+function util.readfile(file)
+	local fh = io.input(file)
+	local str = ""
+
+	-- Newlines are replaced with spaces
+	for i in fh:lines() do
+		str = str .. " " .. i
+	end
+
+	io.close(fh)
+	return str
+end
+
+--- Format script output with user defined format string
+-- @param output sep-separated string of values
+-- @param format Format string
+-- @param sep Separator of values in string
+function util.format(output, format, sep)
+	-- Delete leading space symbols
+	output = string.gsub(output, "^%s+", "")
+
+	-- Split script output
+	local parts = util.split(output, sep)
+
+	-- For each part with number "k" replace corresponding "$k" variable in format string
+	for k,part in pairs(parts) do
+		part = string.gsub(part, "%%", "%1%1") --percent fix for next gsub (bug found in Wicked)
+		format = string.gsub(format, "$" .. k, part)
+	end
+
+	return format
+end
+
+--- Format script output
+-- @param script Script to execute
+-- @param format Format string
+-- @param sep Separator of values in string
+function util.update(script, format, sep)
+	-- Execute script and format it's output
+	local output = util.exec(script)
+	output = util.format(output, format, sep)
+	return output
+end
+
+--- Format file contents (for async variant)
+-- @param file File to format it's content
+-- @param format Format string
+-- @param sep Separator of values in string
+function util.update_async(file, format, sep)
+	-- Read file and format it's contents
+	local output = util.readfile(file)
+
+	if string.len(output) > 0 then
+	output = util.format(output, format, sep)
+	end
+
+	return output
+end
+
+
+--- Register script for text widget
+-- @param widget Widget to update
+-- @param script Script to use it's output
+-- @param format User-defined format string (optional)
+-- @param updtime Update time in seconds (optional)
+-- @param sep Output separator (optional)
+function register(widget, script, format, updtime, sep)
+	-- Set optional variables
+	if updtime == nil then
+		updtime = 2 -- Default update time = 2 seconds
+	end
+
+	if format == nil then
+		format = "$1" -- Default format is the first word in script output
+	end
+
+	if sep == nil then
+		sep = ' ' -- Default separator is the space symbol
+	end
+
+	-- Append script_path to relative script path
+	if string.find(script, '^/') == nil then
+		script = script_path .. script
+	end
+
+	-- User don't want to wait first 'updtime' interval to see the value =)
+	widget.text = util.update(script, format, sep)
+
+	-- Register timer to update widget every 'updtime' seconds
+	awful.hooks.timer.register(updtime, function() widget.text = util.update(script, format, sep) end)
+end
+
+--- Register script for text widget throughout the temporary file
+-- @param widget Widget to update
+-- @param script Script to use it's output
+-- @param format User-defined format string (optional)
+-- @param time1 File update time in seconds (optional)
+-- @param time2 Widget update time in seconds (optional)
+-- @param sep Output separator (optional)
+function register_async(widget, script, format, time1, time2, sep)
+	-- Set optional variables
+	if time1 == nil then
+		time1 = 2 -- Default file update time is 2 seconds
+	end
+
+	if time2 == nil then
+		time2 = 1 -- Default widget update time is 1 second
+	end
+
+	if format == nil then
+		format = "$1" -- Default format is the first word in script output
+	end
+
+	if sep == nil then
+		sep = ' ' -- Default separator is the space symbol
+	end
+
+	-- Replace all slashes with empty string so that /home/user1/script.sh 
+	-- and /home/user2/script.sh will have different temporary files
+	local tmpname = string.gsub(script, '/', '')
+
+	-- Replace all spaces with points so that "script.sh arg1"
+	-- and "script.sh arg2" will have different temporary files
+	tmpname = string.gsub(tmpname, '%s+', '.')
+
+	-- Text while updating widget first time - it could take a while
+	widget.text = '...'
+	-- Generated script-parameter-unique temporary file path
+	local file = tmp_folder .. tmpname .. '.bashets.out'
+
+	-- Append script_path to relative script path
+	if string.find(script, '^/') == nil then
+		script = script_path .. script
+	end
+
+	-- Create temporary file
+	awful.util.spawn_with_shell('touch ' .. file)
+
+	-- Do it first time
+	util.exectmp(script, file)
+	widget.text = util.update_async(file, format, sep)
+
+	-- Register timers to update file every 'time1' seconds and widget every 'time2' seconds
+	awful.hooks.timer.register(time1, function() util.exectmp(script, file) end)
+	awful.hooks.timer.register(time2,
+	function()
+		local txt = util.update_async(file, format, sep)
+		if string.len(txt) > 0 then
+			widget.text = txt
+		end
+	end)
+end
