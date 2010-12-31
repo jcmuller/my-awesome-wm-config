@@ -143,6 +143,18 @@ mpdmenu = awful.menu.new({
 	}
 })
 
+pianobarmenu = awful.menu.new({
+	auto_expand = true,
+	items = {
+		{ "toggle", "pianobar-toggle" },
+		{ "status", "pianobar-status" },
+		{ "pause",  "pianobar-pause" },
+		{ "next",   "pianobar-next" },
+		{ "love",   "pianobar-love" },
+ 		{ "ban",    "pianobar-ban" },
+	}
+})
+
 -- }}}
 -- {{{ Reusable separator
 separator = widget({ type = "imagebox" })
@@ -283,6 +295,14 @@ function show_mpd_menu()
 	awful.menu.menu_keys.left  = { "Left",  "h" }
 	awful.menu.menu_keys.right = { "Right", "l" }
 	mpdmenu:toggle({ keygrabber = true })
+end
+
+function show_pianobar_menu()
+	awful.menu.menu_keys.down  = { "Down",  "j" }
+	awful.menu.menu_keys.up    = { "Up",    "k" }
+	awful.menu.menu_keys.left  = { "Left",  "h" }
+	awful.menu.menu_keys.right = { "Right", "l" }
+	pianobarmenu:toggle({ keygrabber = true })
 end
 
 -- }}}
@@ -566,6 +586,8 @@ globalkeys = awful.util.table.join(
 
     -- MPD menu
     awful.key({ modkey, "Shift"   }, "m", show_mpd_menu),
+    -- pianobar
+    awful.key({ modkey, "Shift"   }, "p", show_pianobar_menu),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
