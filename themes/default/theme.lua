@@ -112,19 +112,21 @@ theme.layout_dwindle    = theme.default .. "/layouts/dwindlew.png"
 theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 
 
-theme.widget_cpu    = theme.icons .. "/cpu.png"
 theme.widget_bat    = theme.icons .. "/bat.png"
-theme.widget_mem    = theme.icons .. "/mem.png"
+theme.widget_cpu    = theme.icons .. "/cpu.png"
+theme.widget_crypto = theme.icons .. "/crypto.png"
+theme.widget_date   = theme.icons .. "/time.png"
 theme.widget_fs     = theme.icons .. "/disk.png"
+theme.widget_mail   = theme.icons .. "/mail.png"
+theme.widget_music  = theme.icons .. "/music.png"
+theme.widget_mem    = theme.icons .. "/mem.png"
 theme.widget_net    = theme.icons .. "/down.png"
 theme.widget_netup  = theme.icons .. "/up.png"
-theme.widget_wifi   = theme.icons .. "/wifi.png"
-theme.widget_mail   = theme.icons .. "/mail.png"
-theme.widget_vol    = theme.icons .. "/vol.png"
 theme.widget_org    = theme.icons .. "/cal.png"
-theme.widget_date   = theme.icons .. "/time.png"
-theme.widget_crypto = theme.icons .. "/crypto.png"
+theme.widget_temp   = theme.icons .. "/temp.png"
 theme.widget_sep    = theme.icons .. "/separator.png"
+theme.widget_vol    = theme.icons .. "/vol.png"
+theme.widget_wifi   = theme.icons .. "/wifi.png"
 -- }}}
 
 return theme
