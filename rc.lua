@@ -156,21 +156,14 @@ separator.image = image(beautiful.widget_sep)
 -- {{{ Wibox
 -- {{{ Clock 
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, " %a %D %I:%M%P %Z ")
+myclock = awful.widget.textclock({ align = "right" }, " %a %D %I:%M%P %Z ")
 
-mytextclock:buttons(awful.util.table.join(
-	awful.button( { }, 1,
-	function ()
-		local cal = awful.util.pread("calendar2.pl")
-
-		naughty.notify({
-			text = cal,
-			timeout = 0,
-			font = "Terminus 9",
-			title = "Calendar"
-		})
-	end)
-))
+awful.tooltip({
+	objects = { myclock },
+	timer_function = function ()
+		return awful.util.pread("calendar2.pl")
+	end,
+})
 -- }}}
 -- {{{ Systray 
 -- Create a systray
@@ -247,7 +240,7 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock, separator,
+        myclock, separator,
         s == 1 and mysystray or nil,
         s == 1 and separator or nil,
         mytasklist[s], separator,
@@ -781,6 +774,14 @@ awful.rules.rules = {
 	},
 	{
 		rule = { class = "MPlayer" },
+		properties = { floating = true }
+	},
+	{
+		rule = { class = "Clock" },
+		properties = { floating = true }
+	},
+	{
+		rule = { class = "XClock" },
 		properties = { floating = true }
 	},
 	{
