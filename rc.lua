@@ -102,8 +102,8 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
-   { "lock terminal (xautolock)", "xautolock -locknow" },
-   { "lock terminal (xlock)", "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
+   --{ "lock terminal (xautolock)", "xautolock -locknow" },
+   --{ "lock terminal (xlock)", "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
    { "quit", awesome.quit }
 }
 
@@ -254,10 +254,10 @@ end
 ------------------------------------
 -- {{{ Functions that pop up
 function show_top_output()
-	local contents = awful.util.pread("top -bn1 | head -20")
+	local content = awful.util.pread("top -bn1 | head -20")
 
 	naughty.notify({
-		text = contents,
+		text = content,
 		timeout = 0,
 		font = "Terminus 9",
 		title = "Status"
@@ -265,10 +265,10 @@ function show_top_output()
 end
 
 function show_df_output()
-	local contents = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl")
+	local content = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl")
 
 	naughty.notify({
-		text = contents,
+		text = content,
 		timeout = 0,
 		font = "Terminus 9",
 		title = "File System"
