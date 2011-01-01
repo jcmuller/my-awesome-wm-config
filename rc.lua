@@ -156,7 +156,7 @@ separator.image = image(beautiful.widget_sep)
 -- {{{ Wibox
 -- {{{ Clock 
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+mytextclock = awful.widget.textclock({ align = "right" }, " %a %D %I:%M%P %Z ")
 
 mytextclock:buttons(awful.util.table.join(
 	awful.button( { }, 1,
@@ -302,6 +302,7 @@ end
 -- {{{ set vicious caching
 vicious.cache(vicious.widgets.mem)
 vicious.cache(vicious.widgets.cpu)
+vicious.cache(vicious.widgets.cpufreq)
 vicious.cache(vicious.widgets.uptime)
 vicious.cache(vicious.widgets.fs)
 vicious.cache(vicious.widgets.volume)
@@ -311,9 +312,7 @@ baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
 
 batterywidget = widget({type = "textbox", name = "batterywidget", align="right"})
-vicious.register(batterywidget,
-	vicious.widgets.bat, 
-	"$1 $2% $3 ", 61, "BAT0")
+vicious.register(batterywidget, vicious.widgets.bat, "$1 $2% $3 ", 61, "BAT0")
  
 batterybar = awful.widget.progressbar()
 -- Progressbar properties
@@ -328,6 +327,9 @@ vicious.register(batterybar, vicious.widgets.bat, "$2", 61, "BAT0")
 -- }}}
 -- {{{ MPD
 -- Initialize widget
+mpdicon = widget({ type = "imagebox" })
+mpdicon.image = image(beautiful.widget_music)
+
 mpdwidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(mpdwidget, vicious.widgets.mpd,
@@ -335,7 +337,7 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
         if args["{state}"] == "Stop" then 
             return " - "
         else 
-            return ' <span color="yellow">MPD</span>: ' .. args["{Artist}"]..' (' .. args["{Album}"] .. ') - '.. args["{Title}"]
+            return ' ' .. args["{Artist}"]..' (' .. args["{Album}"] .. ') - '.. args["{Title}"]
         end
     end, 10)
 -- }}}
@@ -378,23 +380,41 @@ swapbar:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
 -- Register widget
 vicious.register(swapbar, vicious.widgets.mem, "$5", 30)
 -- }}}
--- {{{ CPU
+-- {{{ CPU Info (usage & freq)
 cpuicon = widget({ type = "imagebox" })
 cpuicon.image = image(beautiful.widget_cpu)
-
---cpulabel = widget({ type = "textbox" })
---cpulabel.text = " <span color='yellow'>CPU</span>:"
 
 cpuwidget = widget({ type = "textbox" })
 cpuwidget.width, cpuwidget.align = 30, "right"
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1% ", 10)
 
-cpuwidget2 = awful.widget.graph()
-cpuwidget2:set_width(40)
-cpuwidget2:set_background_color("#494B4F")
-cpuwidget2:set_color("#FF5656")
-cpuwidget2:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
-vicious.register(cpuwidget2, vicious.widgets.cpu, "$1 ", 10)
+cpubar = awful.widget.graph()
+cpubar:set_width(40)
+cpubar:set_background_color("#494B4F")
+cpubar:set_color("#FF5656")
+cpubar:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+vicious.register(cpubar, vicious.widgets.cpu, "$1 ", 10)
+
+cpufreq = widget({ type = "textbox" })
+cpufreq.width, cpufreq.align = 50, "right"
+vicious.register(cpufreq, vicious.widgets.cpufreq, "$1MHz ", 10, "cpu0")
+
+-- }}}
+-- {{{ Thermal
+tempicon = widget({ type = "imagebox" })
+tempicon.image = image(beautiful.widget_temp)
+
+homeweather = widget({ type = "textbox" })
+vicious.register(homeweather, vicious.widgets.weather, "<span color='yellow'>TET</span>: ${tempf}F", 300, "KTEB")
+
+--coretemp = widget({ type = "textbox" })
+--vicious.register(coretemp, vicious.widgets.thermal, "core: $1C", 3, "core")
+
+--proctemp = widget({ type = "textbox" })
+--vicious.register(proctemp, vicious.widgets.thermal, "proc: $1C", "proc")
+
+--systemp = widget({ type = "textbox" })
+--vicious.register(systemp, vicious.widgets.thermal, "sys: $1C", "sys")
 -- }}}
 -- {{{ Uptime
 uptimewidget = widget({ type = "textbox" })
@@ -445,6 +465,7 @@ vicious.register(fs.s, vicious.widgets.fs, "${/share used_p}", 599)
 -- {{{ Volume 
 volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
+--volicon.bg = 'white'
 -- Initialize widgets
 volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
@@ -473,13 +494,22 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
   .. beautiful.fg_netup_widget ..'">${eth1 up_kb}</span>', 5)
 -- }}}
 -- {{{ Register buttons
-memicon:buttons(awful.util.table.join(awful.button(    { }, 1, show_top_output)))
-memwidget:buttons(awful.util.table.join(awful.button(    { }, 1, show_top_output)))
-swapwidget:buttons(awful.util.table.join(awful.button(   { }, 1, show_top_output)))
-cpuicon:buttons(awful.util.table.join(awful.button(     { }, 1, show_top_output)))
-cpuwidget:buttons(awful.util.table.join(awful.button(    { }, 1, show_top_output)))
-uptimewidget:buttons(awful.util.table.join(awful.button( { }, 1, show_top_output)))
-loadwidget:buttons(awful.util.table.join(awful.button( { }, 1, show_top_output)))
+
+-- widgets that pop out 'top' output
+widgets = {
+	cpufreq,
+	cpuicon,
+	cpuwidget,
+	loadwidget,
+	memicon,
+	memwidget,
+	swapwidget,
+	uptimewidget,
+}
+
+for i = 1, table.getn(widgets) do
+	widgets[i]:buttons(awful.util.table.join(awful.button({ }, 1, show_top_output)))
+end
 
 volbar.widget:buttons(awful.util.table.join(
    awful.button({ }, 1, function () exec("gnome-volume-control") end),
@@ -498,20 +528,22 @@ mywibox2 = {}
 mywibox2 = awful.wibox({ position = "bottom", screen = 1 })
 mywibox2.widgets = {
 	{
+		-- Left to Right
 		dnicon, netwidget, upicon,
 		separator, memicon, memwidget, membar,
 		separator, swapwidget, swapbar,
-		separator, cpuicon, cpuwidget, cpuwidget2,
+		separator, cpuicon, cpuwidget, cpufreq, cpubar,
 		separator, uptimewidget,
 		separator, loadwidget,
 		separator, fsicon, fs.r.widget, fs.h.widget, fs.s.widget,
 		separator, baticon, batterywidget, batterybar,
-        separator, volicon, volwidget, volbar.widget,
+		separator, tempicon, homeweather,
 		separator,
 		layout = awful.widget.layout.horizontal.leftright
 	},
-	mpdwidget,
-	separator, 
+	-- Right to Left
+	volbar.widget, volwidget, volicon, separator,
+	mpdwidget, mpdicon, separator, 
 	layout = awful.widget.layout.horizontal.rightleft
 }
 -- }}}
