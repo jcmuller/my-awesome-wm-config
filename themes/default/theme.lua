@@ -93,7 +93,8 @@ theme.titlebar_maximized_button_normal_active   = theme.default .. "/titlebar/ma
 theme.titlebar_maximized_button_focus_active    = theme.default .. "/titlebar/maximized_focus_active.png"
 
 -- You can use your own command to set your wallpaper
-theme.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/default/background.png" }
+-- theme.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/default/background.png"}
+theme.wallpaper_cmd = { "awsetbg -c /home/sputnik/Pictures/Wallpapers/NatGeo/1109wallpaper-9_1600.jpg" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh      = theme.default .. "/layouts/fairhw.png"
