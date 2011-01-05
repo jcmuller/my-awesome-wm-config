@@ -875,7 +875,8 @@ awful.rules.rules = {
 		rule = { class = "Skype", role = "MainWindow" },
 		properties = {
 			floating = true,
-			ontop = true
+			ontop = true,
+			tag = tags[1][4]
 		},
 		callback = function (c)
 			c:geometry({x=2336, y=18, width=244, height=448})
@@ -884,10 +885,11 @@ awful.rules.rules = {
 	{
 		rule = { class = "Skype", role = "Chats" },
 		properties = {
-			floating = false
+			floating = false,
+			tag = tags[1][4]
 		},
 		callback = function (c)
-			c:geometry({x=0, y=18, width=479, height=256})
+			c:geometry({width=515, height=252})
 		end
 	},
 	{
