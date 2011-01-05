@@ -128,11 +128,13 @@ mylauncher = awful.widget.launcher({
 mpdmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "pause",  "mpc pause" },
-		{ "play",   "mpc play"  },
-		{ "next",   "mpc next"  },
-		{ "prev",   "mpc prev"  },
-		{ "choose", "mpc_dmenu" },
+		{ "toggle", "mpc toggle" },
+		{ "pause",  "mpc pause"  },
+		{ "play",   "mpc play"   },
+		{ "next",   "mpc next"   },
+		{ "prev",   "mpc prev"   },
+		{ "choose", "mpc_dmenu"  },
+		{ "MPD", ""  },
 	}
 })
 
@@ -145,6 +147,7 @@ pianobarmenu = awful.menu.new({
 		{ "next",   "pianobar-next" },
 		{ "love",   "pianobar-love" },
  		{ "ban",    "pianobar-ban" },
+		{ "pianobar", ""  },
 	}
 })
 
