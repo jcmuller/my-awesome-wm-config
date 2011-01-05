@@ -1,1 +1,1 @@
-This is the [http://awesome.naquadah.org/](Awesome WM) configuration for my laptop.
+This is the [Awesome WM](http://awesome.naquadah.org/) configuration for my laptop.
