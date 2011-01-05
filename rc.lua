@@ -88,7 +88,7 @@ tags = {
 }
 
 for s = 1, screen.count() do
-tags[s] = awful.tag(tags.settings[s].names, s, tags.settings[s].layout)
+	tags[s] = awful.tag(tags.settings[s].names, s, tags.settings[s].layout)
 end
 
 --for s = 1, screen.count() do
