@@ -328,14 +328,14 @@ mpdicon.image = image(beautiful.widget_music)
 
 mpdwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(mpdwidget, vicious.widgets.mpd,
-    function (widget, args)
-        if args["{state}"] == "Stop" then 
-            return " - "
-        else 
-            return ' ' .. args["{Artist}"]..' (' .. args["{Album}"] .. ') - '.. args["{Title}"]
-        end
-    end, 10)
+--vicious.register(mpdwidget, vicious.widgets.mpd,
+--    function (widget, args)
+--        if args["{state}"] == "Stop" then 
+--            return " - "
+--        else 
+--            return ' ' .. args["{Artist}"]..' (' .. args["{Album}"] .. ') - '.. args["{Title}"]
+--        end
+--    end, 10)
 -- }}}
 -- {{{ Memory & Swap
 -- Initialize widget
