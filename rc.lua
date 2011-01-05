@@ -13,7 +13,7 @@ require("revelation")
 --added by me
 require("vicious")
 --require("bashets")
---require("aweswt")
+require("aweswt")
 -- support for awesome-client
 require("awful.remote")
 -- }}}
@@ -618,7 +618,7 @@ globalkeys = awful.util.table.join(
 			awful.util.spawn_with_shell( "exe=`dmenu_path | dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'` && exec $exe")
 		end),
 	-- Switch apps with dmenu
-	--awful.key({ modkey },			"a",	aweswt.switch),
+	awful.key({ modkey },			"a",	aweswt.switch),
 	-- LUA prompt
     awful.key({ modkey }, "x",
               function ()
