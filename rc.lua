@@ -102,7 +102,7 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
-   { "xautolock lock now", "xautolock -locknow" },
+   { "xautolock lock now", "xawutolock -enable; xautolock -locknow" },
    { "xlock", "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
    { "quit", awesome.quit }
 }
