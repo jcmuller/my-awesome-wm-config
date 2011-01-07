@@ -518,6 +518,27 @@ mpdwidget:buttons(awful.util.table.join(
     awful.button({ }, 1, show_mpd_menu),
     awful.button({ }, 3, show_mpd_menu)
 ))
+
+local calendar = nil
+myclock:buttons(awful.util.table.join(
+	awful.button({}, 1, function ()
+		if not calendar then
+			calendar = naughty.notify({
+				text = awful.util.pread("calendar2.pl"),
+				timeout = 0,
+				title = "Calendar - 3 months",
+				run = function()
+					naughty.destroy(calendar)
+					calendar = nil
+				end
+			})
+		else
+			naughty.destroy(calendar)
+			calendar = nil
+		end
+	end)
+))
+
 -- }}}
 -- {{{ Set up
 mywibox2 = {}
