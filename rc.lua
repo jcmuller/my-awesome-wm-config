@@ -25,20 +25,20 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal         = "gnome-terminal"
-editor           = "gvim"
-browser_chrome   = "google-chrome"
-browser_firefox  = "firefox"
-position_firefox = "position_firefox.sh"
-capture_task     = "capture_task.sh"
-suspend          = "/usr/sbin/pm-suspend"
+local terminal         = "gnome-terminal"
+local editor           = "gvim"
+local browser_chrome   = "google-chrome"
+local browser_firefox  = "firefox"
+local position_firefox = "position_firefox.sh"
+local capture_task     = "capture_task.sh"
+local suspend          = "/usr/sbin/pm-suspend"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
