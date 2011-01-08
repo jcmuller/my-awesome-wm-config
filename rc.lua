@@ -17,7 +17,7 @@ require("aweswt")
 -- support for awesome-client
 require("awful.remote")
 -- }}}
--- {{{ Variable definitions
+-- {{{ Variable Definitions
 -- Themes define colours, icons, and wallpapers
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
