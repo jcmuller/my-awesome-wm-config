@@ -265,6 +265,17 @@ function change_layout(inc)
 	awful.layout.inc(layouts, inc)
 	set_client_border_color(client.focus)
 end
+
+function get_definition(word)
+	local f = io.popen("dict -d wn " .. word .. " 2>&1")
+	--local f = io.popen("dict " .. word .. " 2>&1")
+	local fr = ""
+	for line in f:lines() do
+		fr = fr .. line .. '\n'
+	end
+	f:close()
+	naughty.notify({ text = fr, timeout = 0, width = 450 })
+end
 -- {{{ Debug function
 function dbg(vars)
 	local text = ""
@@ -767,6 +778,23 @@ globalkeys = awful.util.table.join(
 				{ keygrabber = true, coords = default_submenu_position }
 			)
 			cmenu:geometry({x=100, y=200})
+		end),
+
+	-- Present user with a prompt to enter a word to look for its definition
+	awful.key({ modkey}, "d",
+		function ()
+			awful.prompt.run(
+				{ prompt = "Dict: " },
+				mypromptbox[mouse.screen].widget,
+				get_definition(word),
+				nil, awful.util.getdir("cache") .. "/dict")
+		end),
+
+	-- Search for definition of word highlighted
+	awful.key({ modkey, "Shift" }, "d",
+		function ()
+			local word = awful.util.pread("xsel -o")
+			get_definition(word)
 		end),
 
 	-- Revelation
