@@ -695,6 +695,7 @@ mywibox2.widgets = {
 -- }}}
 -- {{{ Mouse root bindings
 root.buttons(awful.util.table.join(
+	awful.button({ }, 1, function () mymainmenu:hide(); mpdmenu:hide(); pianobarmenu:hide(); end),
 	awful.button({ }, 3, toggle_main_menu_and_set_keys),
 	awful.button({ }, 4, awful.tag.viewnext),
 	awful.button({ }, 5, awful.tag.viewprev)
