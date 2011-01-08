@@ -339,7 +339,7 @@ mpdmenu = awful.menu.new({
 		{ "next",   "mpc next"   },
 		{ "prev",   "mpc prev"   },
 		{ "choose", "mpc_dmenu"  },
-		{ "MPD", ""  },
+		{ "MPD" },
 	}
 })
 
@@ -352,7 +352,7 @@ pianobarmenu = awful.menu.new({
 		{ "next",   "pianobar-next" },
 		{ "love",   "pianobar-love" },
  		{ "ban",    "pianobar-ban" },
-		{ "pianobar", ""  },
+		{ "pianobar" },
 	}
 })
 
