@@ -23,13 +23,13 @@ require("awful.remote")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-local terminal         = "gnome-terminal"
-local editor           = "gvim"
-local browser_chrome   = "google-chrome"
-local browser_firefox  = "firefox"
-local position_firefox = "position_firefox.sh"
-local capture_task     = "capture_task.sh"
-local suspend          = "/usr/sbin/pm-suspend"
+local commands = {}
+commands.terminal         = "gnome-terminal"
+commands.editor           = "gvim"
+commands.browser_chrome   = "google-chrome"
+commands.browser_firefox  = "firefox"
+commands.capture_task     = "capture_task.sh"
+commands.suspend          = "/usr/sbin/pm-suspend"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -314,7 +314,7 @@ end
 -- Create a laucher widget and a main menu
 myawesomemenu = {
 	{ "manual",              "xterm -e man awesome"},
-	{ "edit config",         editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+	{ "edit config",         commands.editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
 	{ "restart",             awesome.restart },
 	{ "xautolock lock now", "xautolock -enable; xautolock -locknow" },
 	{ "xlock",              "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
@@ -325,10 +325,10 @@ mymainmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
 		{ "awesome",       myawesomemenu, beautiful.awesome_icon },
-		{ "open firefox",  browser_firefox },
-		{ "open chrome",   browser_chrome },
-		{ "suspend",       suspend },
-		{ "open terminal", terminal },
+		{ "open firefox",  commands.browser_firefox },
+		{ "open chrome",   commands.browser_chrome },
+		{ "stand by",      commands.suspend },
+		{ "open terminal", commands.terminal },
 	}
 })
 
@@ -727,7 +727,7 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "Tab", focus_last_focused),
 
 	-- Standard program
-	awful.key({ modkey,           }, "Return", function () exec(terminal) end),
+	awful.key({ modkey,           }, "Return", function () exec(commands.terminal) end),
 	awful.key({ modkey, "Control" }, "r", awesome.restart),
 	awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -810,7 +810,7 @@ clientkeys = awful.util.table.join(
 
 	awful.key({ modkey,           }, "i",               show_window_info),
 
-	awful.key({ modkey, "Control" }, "t",               capture_task)
+	awful.key({ modkey, "Control" }, "t",               commands.capture_task)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -1082,7 +1082,7 @@ os.execute("gnome-power-manager &")
 os.execute("/usr/lib/gnome-settings-daemon/gnome-settings-daemon &")
 -- First terminal
 --os.execute("gnome-terminal &")
-run_once("gnome-terminal")
+run_once(commands.terminal)
 -- }}}
 
 -- vim:set foldmethod=marker noexpandtab sw=4 ts=4:
