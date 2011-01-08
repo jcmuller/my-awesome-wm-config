@@ -26,8 +26,6 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal         = "gnome-terminal"
-terminal_xfce    = "xfce4-terminal"
-terminal_sak     = "sakura"
 editor           = "gvim"
 browser_chrome   = "google-chrome"
 browser_firefox  = "firefox"
@@ -114,8 +112,6 @@ mymainmenu = awful.menu.new({
 		{ "open firefox", browser_firefox },
 		{ "open chrome", browser_chrome },
 		{ "suspend", suspend },
-		{ "open sakura", terminal_sak },
-		{ "open xfce terminal", terminal_xfce },
 		{ "open terminal", terminal },
 	}
 })
