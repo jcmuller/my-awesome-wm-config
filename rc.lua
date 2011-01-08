@@ -313,8 +313,23 @@ function show_top_output()
 	end
 end
 
+local dfnotification = nil
 function show_df_output()
-	local content = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl")
+	if not dfnotification then
+		dfnotification = naughty.notify({
+			text = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl"),
+			timeout = 0,
+			title = "File System",
+			run = function()
+				naughty.destroy(dfnotification)
+				dfnotification = nil
+			end
+		})
+	else
+		naughty.destroy(dfnotification)
+		dfnotification = nil
+	end
+end
 
 	naughty.notify({
 		text = content,
