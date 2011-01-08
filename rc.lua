@@ -869,30 +869,31 @@ awful.rules.rules = {
 			buttons = clientbuttons,
 			size_hints_honor = false,
 			maximized_horizontal = false,
-			maximized_vertical   = false
+			maximized_vertical   = false,
+			fullscreen = false,
 		}
 	},
 	{
 		rule = { class = "MPlayer" },
-		properties = { floating = true }
+		properties = { floating = true },
 	},
 	{
 		rule = { class = "Clock" },
-		properties = { floating = true }
+		properties = { floating = true },
 	},
 	{
 		rule = { class = "XClock" },
-		properties = { floating = true }
+		properties = { floating = true },
 	},
 	{
 		rule = { class = "pinentry" },
-		properties = { floating = true }
+		properties = { floating = true },
 	},
 
 	{
 		rule = { class = "Gimp" },
 		properties = { floating = true },
-		callback = awful.titlebar.add
+		callback = awful.titlebar.add,
 	},
 	{
 		rule = { role = "gimp-toolbox" },
