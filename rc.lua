@@ -781,13 +781,12 @@ globalkeys = awful.util.table.join(
 		end),
 
 	-- Present user with a prompt to enter a word to look for its definition
-	awful.key({ modkey}, "d",
+	awful.key({ modkey }, "d",
 		function ()
-			awful.prompt.run(
-				{ prompt = "Dict: " },
-				mypromptbox[mouse.screen].widget,
-				get_definition(word),
-				nil, awful.util.getdir("cache") .. "/dict")
+			awful.prompt.run({ prompt = "Dict: " },
+			mypromptbox[mouse.screen].widget,
+			get_definition,
+			nil, awful.util.getdir("cache") .. "/dict")
 		end),
 
 	-- Search for definition of word highlighted
