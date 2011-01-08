@@ -20,7 +20,7 @@ function get_out (a)
 end
 
 function get_input (a)
-	local dmenu = "dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577' -p 'application:'  -i"
+	local dmenu = "dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577' -p 'switch to application:' -fn 'Terminus 8'  -i"
 	s1 = 'echo -e "' .. a .. '" | ' .. dmenu
 	return get_out(s1)
 end
