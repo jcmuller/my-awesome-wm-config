@@ -341,7 +341,8 @@ mylauncher = awful.widget.launcher({
 	image = image(beautiful.awesome_icon),
 	menu = mymainmenu
 })
-
+-- }}}
+-- {{{ Music Menus
 mpdmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
@@ -367,7 +368,6 @@ pianobarmenu = awful.menu.new({
 		{ "pianobar" },
 	}
 })
-
 -- }}}
 -- {{{ Reusable separator
 separator = widget({ type = "imagebox" })
@@ -481,7 +481,7 @@ end
 -- }}}
 -- }}}
 -- {{{ My Wibox
--- {{{ set vicious caching
+-- {{{ Set vicious caching
 vicious.cache(vicious.widgets.mem)
 vicious.cache(vicious.widgets.cpu)
 vicious.cache(vicious.widgets.cpufreq)
@@ -693,7 +693,7 @@ mywibox2.widgets = {
 }
 -- }}}
 -- }}}
--- {{{ Mouse bindings
+-- {{{ Mouse root bindings
 root.buttons(awful.util.table.join(
 	awful.button({ }, 3, toggle_main_menu_and_set_keys),
 	awful.button({ }, 4, awful.tag.viewnext),
