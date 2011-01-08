@@ -38,12 +38,12 @@ function switch()
 
 	for i, c in pairs(clients) do
 		if USE_T then
-			tmp = i..':'..string.sub(c['name'], 1, 20)
+			tmp = i .. ':' .. string.sub(c['name'], 1, 20)
 		else
-			tmp = i..':'..c['instance']..'.'..c['class']
+			tmp = i .. ':' .. c['instance'] .. '.' .. c['class']
 		end
 
-		m1 = m1..tmp..'\n'
+		m1 = m1 .. tmp .. '\n'
 
 		t2[tmp] = c
 	end
