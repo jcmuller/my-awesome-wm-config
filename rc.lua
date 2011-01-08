@@ -495,15 +495,8 @@ baticon.image = image(beautiful.widget_bat)
 
 batterywidget = widget({type = "textbox", name = "batterywidget", align="right"})
 vicious.register(batterywidget, vicious.widgets.bat, "$1 $2% $3 ", 61, "BAT0")
- 
-batterybar = awful.widget.progressbar()
--- Progressbar properties
-batterybar:set_width(8)
-batterybar:set_vertical(true)
-batterybar:set_background_color("#494B4F")
-batterybar:set_border_color(nil)
-batterybar:set_color("#AECF96")
-batterybar:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+
+batterybar = create_vertical_progress_bar()
 vicious.register(batterybar, vicious.widgets.bat, "$2", 61, "BAT0")
 
 -- }}}
@@ -532,16 +525,7 @@ memwidget = widget({ type = "textbox" })
 vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB) ", 30)
 --
 -- Initialize widget
-membar = awful.widget.progressbar()
--- Progressbar properties
-membar:set_vertical(true)
---membar:set_ticks(true)
-membar:set_width(8)
-membar:set_background_color("#494B4F")
-membar:set_border_color(nil)
-membar:set_color("#AECF96")
-membar:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
--- Register widget
+membar = create_vertical_progress_bar()
 vicious.register(membar, vicious.widgets.mem, "$1", 30)
 
 -- Initialize widget
@@ -551,15 +535,7 @@ vicious.register(swapwidget, vicious.widgets.mem, " <span color='yellow'>SW</spa
 --vicious.register(swapwidget, vicious.widgets.mem, " <b>SW</b>: $5% ($6<i>MB</i>/$7<i>MB</i>)", 13)
 
 -- Initialize widget
-swapbar = awful.widget.progressbar()
--- Progressbar properties
-swapbar:set_vertical(true)
-swapbar:set_width(8)
-swapbar:set_background_color("#494B4F")
-swapbar:set_border_color(nil)
-swapbar:set_color("#AECF96")
-swapbar:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
--- Register widget
+swapbar = create_vertical_progress_bar()
 vicious.register(swapbar, vicious.widgets.mem, "$5", 30)
 -- }}}
 -- {{{ CPU Info (usage & freq)
@@ -619,25 +595,16 @@ fsicon = widget({ type = "imagebox" })
 fsicon.image = image(beautiful.widget_fs)
 -- Initialize widget
 fs = {
-	r = awful.widget.progressbar(),
-	h = awful.widget.progressbar(),
-	s = awful.widget.progressbar(),
+	r = create_vertical_progress_bar(),
+	h = create_vertical_progress_bar(),
+	s = create_vertical_progress_bar(),
 }
--- fs progressbar properties
 for _, w in pairs(fs) do
-	w:set_vertical(true)
-	w:set_width(8)
-	w:set_border_color(beautiful.border_widget)
-	w:set_background_color(beautiful.fg_off_widget)
-	w:set_gradient_colors({ beautiful.fg_widget,
-		beautiful.fg_center_widget, beautiful.fg_end_widget
-	})
-	-- Register buttons
 	w.widget:buttons(awful.util.table.join(awful.button(     { }, 1, show_df_output)))
 end
 
-vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",            599)
-vicious.register(fs.h, vicious.widgets.fs, "${/home used_p}",        599)
+vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",      599)
+vicious.register(fs.h, vicious.widgets.fs, "${/home used_p}",  599)
 vicious.register(fs.s, vicious.widgets.fs, "${/share used_p}", 599)
 -- }}}
 -- {{{ Weather
@@ -651,26 +618,18 @@ volicon.image = image(beautiful.widget_vol)
 -- Initialize widgets
 volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
--- Progressbar properties
-volbar:set_vertical(true)
---volbar:set_ticks(true)
-volbar:set_width(8)
---volbar:set_ticks_size(2)
-volbar:set_background_color(beautiful.fg_off_widget)
-volbar:set_gradient_colors({ beautiful.fg_widget,
-   beautiful.fg_center_widget, beautiful.fg_end_widget
-}) 
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  5, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1% ", 5, "Master")
+
+volbar    = create_vertical_progress_bar()
+vicious.register(volbar,    vicious.widgets.volume,  "$1",  5, "Master")
 -- }}}
 -- {{{ Network usage
 dnicon = widget({ type = "imagebox" })
 upicon = widget({ type = "imagebox" })
 dnicon.image = image(beautiful.widget_net)
 upicon.image = image(beautiful.widget_netup)
--- Initialize widget
+
 netwidget = widget({ type = "textbox" })
--- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="'
   .. beautiful.fg_netdn_widget ..'">${eth1 down_kb}</span> <span color="'
   .. beautiful.fg_netup_widget ..'">${eth1 up_kb}</span>', 5)
