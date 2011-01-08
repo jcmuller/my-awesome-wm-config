@@ -914,6 +914,27 @@ awful.rules.rules = {
 		end
 	},
 	{
+		rule = { class = "Pidgin", role = "buddy_list" },
+		properties = {
+			floating = true,
+			ontop = true,
+			tag = tags[1][5]
+		},
+		callback = function (c)
+			c:geometry({x=2336, y=18, width=244, height=448})
+		end
+	},
+	{
+		rule = { class = "Pidgin", role = "conversation" },
+		properties = {
+			floating = false,
+			tag = tags[1][5]
+		},
+		callback = function (c)
+			c:geometry({width=515, height=252})
+		end
+	},
+	{
 		rule = { class = "Firefox", instance = "Navigator" },
 		callback = function (c)
 			--c:geometry({x=1680, y=170, width=1120, height=878})
