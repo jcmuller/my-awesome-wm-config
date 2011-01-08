@@ -116,7 +116,7 @@ function toggle_main_menu_and_set_keys(position)
 end
 
 function dmenu_prompt()
-	sexec("exec `dmenu_path | dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'`")
+	sexec("exec `dmenu_path | dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577' -p 'run application:' -fn 'Terminus 8'`")
 end
 
 local calendar = nil
