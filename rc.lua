@@ -75,13 +75,13 @@ tags = {
 		{
 			names  = labels1,
 			layout = {
-				layouts[3],
-				layouts[1],
-				layouts[3],
-				layouts[2],
-				layouts[2],
-				layouts[3],
-				layouts[3],
+				awful.layout.suit.max,
+				awful.layout.suit.max,
+				awful.layout.suit.max,
+				awful.layout.suit.fair,
+				awful.layout.suit.fair,
+				awful.layout.suit.max,
+				awful.layout.suit.max,
 			}
 		},
 	}
