@@ -174,6 +174,38 @@ awful.tooltip({
 		return awful.util.pread("calendar2.pl")
 	end,
 })
+
+local calendar = nil
+function toggle_calendar()
+	if not calendar then
+		calendar = naughty.notify({
+			text = awful.util.pread("calendar2.pl"),
+			timeout = 0,
+			title = "Calendar",
+			run = function()
+				hide_calendar()
+			end
+		})
+	else
+		hide_calendar()
+	end
+end
+
+function hide_calendar()
+	--clockclicked = false
+	naughty.destroy(calendar)
+	calendar = nil
+end
+
+--local clockclicked = false
+myclock:buttons(awful.util.table.join(awful.button({}, 1, toggle_calendar)))
+
+--myclock:add_signal("mouse::enter", show_calendar)
+--myclock:add_signal("mouse::leave", function ()
+--	if not clockclicked then
+--		hide_calendar()
+--	end
+--end)
 -- }}}
 -- {{{ Systray 
 -- Create a systray
@@ -526,25 +558,6 @@ mpdwidget:buttons(awful.util.table.join(
     awful.button({ }, 3, show_mpd_menu)
 ))
 
-local calendar = nil
-myclock:buttons(awful.util.table.join(
-	awful.button({}, 1, function ()
-		if not calendar then
-			calendar = naughty.notify({
-				text = awful.util.pread("calendar2.pl"),
-				timeout = 0,
-				title = "Calendar - 3 months",
-				run = function()
-					naughty.destroy(calendar)
-					calendar = nil
-				end
-			})
-		else
-			naughty.destroy(calendar)
-			calendar = nil
-		end
-	end)
-))
 
 -- }}}
 -- {{{ Set up
