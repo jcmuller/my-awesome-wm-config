@@ -3,20 +3,26 @@
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
+
 -- Theme handling library
 require("beautiful")
+
+-- support for awesome-client
+require("awful.remote")
+
 -- Notification library
 require("naughty")
+
 -- Revelation (https://github.com/bioe007/awesome-configs/blob/master/revelation.lua)
 require("revelation")
 
---added by me
+-- Different system status widget providers
 require("vicious")
+
 --require("bashets")
+
 -- Application switcher 
 require("aweswt")
--- support for awesome-client
-require("awful.remote")
 -- }}}
 -- {{{ Variable Definitions
 -- Themes define colors, icons, and wallpapers
