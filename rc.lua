@@ -13,16 +13,14 @@ require("revelation")
 --added by me
 require("vicious")
 --require("bashets")
+-- Application switcher 
 require("aweswt")
 -- support for awesome-client
 require("awful.remote")
 -- }}}
 -- {{{ Variable Definitions
--- Themes define colours, icons, and wallpapers
---beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+-- Themes define colors, icons, and wallpapers
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
---beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
---beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal         = "gnome-terminal"
@@ -115,7 +113,6 @@ function toggle_main_menu_and_set_keys(position)
 	awful.menu.menu_keys.left  = { "Left",  "h" }
 	awful.menu.menu_keys.right = { "Right", "l" }
 	mymainmenu:toggle(options)
-	--mymainmenu:show({ keygrabber = true, coords = { x = 900, y = 330 } })
 end
 
 function dmenu_prompt()
@@ -189,7 +186,7 @@ musiccover = {
 local musicnotification = nil
 function show_music_notification()
 	if musiccover.path == "" then
-		return
+		return nil
 	else
 		if not musicnotification then
 			musicnotification = naughty.notify({
@@ -327,10 +324,10 @@ myawesomemenu = {
 mymainmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "awesome", myawesomemenu, beautiful.awesome_icon },
-		{ "open firefox", browser_firefox },
-		{ "open chrome", browser_chrome },
-		{ "suspend", suspend },
+		{ "awesome",       myawesomemenu, beautiful.awesome_icon },
+		{ "open firefox",  browser_firefox },
+		{ "open chrome",   browser_chrome },
+		{ "suspend",       suspend },
 		{ "open terminal", terminal },
 	}
 })
