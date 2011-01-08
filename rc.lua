@@ -756,7 +756,7 @@ globalkeys = awful.util.table.join(
 	-- Prompt with dmenu (install dmenu)
 	awful.key({ modkey }, "p", dmenu_prompt),
 	-- Switch apps with dmenu
-	awful.key({ modkey }, "a",	aweswt.switch),
+	awful.key({ modkey }, "a", aweswt.switch),
 	-- LUA prompt
 	awful.key({ modkey }, "x",
 		function ()
