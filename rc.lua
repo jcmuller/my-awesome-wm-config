@@ -286,10 +286,6 @@ layouts = {
 -- Define a tag table which hold all screen tags.
 labels1 = { "M", "W", "3", "S", "P", "6", "7"}
 
---tags = {}
---tags[1] = awful.tag(labels1, 1, awful.layout.suit.magnifier)
---tags[2] = awful.tag(labels2, 2, awful.layout.suit.floating)
-
 tags = {
 	settings = {
 		{
@@ -310,11 +306,6 @@ tags = {
 for s = 1, screen.count() do
 	tags[s] = awful.tag(tags.settings[s].names, s, tags.settings[s].layout)
 end
-
---for s = 1, screen.count() do
---    -- Each screen has its own tag table.
---    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
---end
 -- }}}
 -- {{{ Menu
 -- Create a laucher widget and a main menu
