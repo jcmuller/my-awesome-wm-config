@@ -1,4 +1,5 @@
 -- aweswt.lua
+-- Application switcher using dmenu
 local io     = io
 local table  = table
 local pairs  = pairs
