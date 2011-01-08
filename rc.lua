@@ -772,35 +772,8 @@ globalkeys = awful.util.table.join(
 	-- Revelation
 	awful.key({ modkey }, "e", revelation.revelation)
 )
-
-clientkeys = awful.util.table.join(
-	awful.key({ modkey,           }, "f",               function (c) c.fullscreen = not c.fullscreen set_client_border_color(c) end),
-	awful.key({ modkey, "Shift"   }, "c",               function (c) c:kill() end),
-	awful.key({ modkey, "Control" }, "space",           awful.client.floating.toggle),
-	awful.key({ modkey, "Control" }, "Return",          function (c) c:swap(awful.client.getmaster()) end),
-	awful.key({ modkey,           }, "o",               awful.client.movetoscreen),
-	awful.key({ modkey, "Shift"   }, "r",               function (c) c:redraw() end),
-	awful.key({ modkey, "Shift"   }, "t",               function (c) c.ontop = not c.ontop end),
-	awful.key({ modkey,           }, "n",               function (c) c.minimized = not c.minimized end),
-	awful.key({ modkey,           }, "m",               toggle_maximized),
-	awful.key({ modkey,           }, "v",               function (c) c.maximized_vertical = not c.maximized_vertical end),
-	awful.key({ modkey,           }, "t",               toggle_titlebar),
-	awful.key({ modkey,           }, "s",               function (c) c.sticky = not c.sticky end),
-
-	awful.key({ modkey, "Shift", "Control" }, "Down",   function () awful.client.moveresize(  0,   0,   0,  20) end),
-	awful.key({ modkey, "Shift", "Control" }, "u",      function () awful.client.moveresize(  0,   0,   0, -20) end),
-	awful.key({ modkey, "Shift", "Control" }, "Right",  function () awful.client.moveresize(  0,   0,  20,   0) end),
-	awful.key({ modkey, "Shift", "Control" }, "Left",   function () awful.client.moveresize(  0,   0, -20,   0) end),
-	awful.key({ modkey, "Shift"   }, "Down",            function () awful.client.moveresize(  0,  20,   0,   0) end),
-	awful.key({ modkey, "Shift"   }, "Up",              function () awful.client.moveresize(  0, -20,   0,   0) end),
-	awful.key({ modkey, "Shift"   }, "Left",            function () awful.client.moveresize(-20,   0,   0,   0) end),
-	awful.key({ modkey, "Shift"   }, "Right",           function () awful.client.moveresize( 20,   0,   0,   0) end),
-
-	awful.key({ modkey,           }, "i",               show_window_info),
-
-	awful.key({ modkey, "Control" }, "t",               commands.capture_task)
-)
-
+-- }}}
+-- {{{ Global key bindings
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
 for s = 1, screen.count() do
@@ -846,15 +819,44 @@ for i = 1, keynumber do
 			end))
 end
 
-clientbuttons = awful.util.table.join(
-	awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-	awful.button({ modkey }, 1, awful.mouse.client.move),
-	awful.button({ modkey }, 3, awful.mouse.client.resize))
-
--- Set keys
 root.keys(globalkeys)
 -- }}}
 -- {{{ Rules
+-- {{{ Client Key bindings
+local clientkeys = awful.util.table.join(
+	awful.key({ modkey,           }, "f",               function (c) c.fullscreen = not c.fullscreen set_client_border_color(c) end),
+	awful.key({ modkey, "Shift"   }, "c",               function (c) c:kill() end),
+	awful.key({ modkey, "Control" }, "space",           awful.client.floating.toggle),
+	awful.key({ modkey, "Control" }, "Return",          function (c) c:swap(awful.client.getmaster()) end),
+	awful.key({ modkey,           }, "o",               awful.client.movetoscreen),
+	awful.key({ modkey, "Shift"   }, "r",               function (c) c:redraw() end),
+	awful.key({ modkey, "Shift"   }, "t",               function (c) c.ontop = not c.ontop end),
+	awful.key({ modkey,           }, "n",               function (c) c.minimized = not c.minimized end),
+	awful.key({ modkey,           }, "m",               toggle_maximized),
+	awful.key({ modkey,           }, "v",               function (c) c.maximized_vertical = not c.maximized_vertical end),
+	awful.key({ modkey,           }, "t",               toggle_titlebar),
+	awful.key({ modkey,           }, "s",               function (c) c.sticky = not c.sticky end),
+
+	awful.key({ modkey, "Shift", "Control" }, "Down",   function () awful.client.moveresize(  0,   0,   0,  20) end),
+	awful.key({ modkey, "Shift", "Control" }, "u",      function () awful.client.moveresize(  0,   0,   0, -20) end),
+	awful.key({ modkey, "Shift", "Control" }, "Right",  function () awful.client.moveresize(  0,   0,  20,   0) end),
+	awful.key({ modkey, "Shift", "Control" }, "Left",   function () awful.client.moveresize(  0,   0, -20,   0) end),
+	awful.key({ modkey, "Shift"   }, "Down",            function () awful.client.moveresize(  0,  20,   0,   0) end),
+	awful.key({ modkey, "Shift"   }, "Up",              function () awful.client.moveresize(  0, -20,   0,   0) end),
+	awful.key({ modkey, "Shift"   }, "Left",            function () awful.client.moveresize(-20,   0,   0,   0) end),
+	awful.key({ modkey, "Shift"   }, "Right",           function () awful.client.moveresize( 20,   0,   0,   0) end),
+
+	awful.key({ modkey,           }, "i",               show_window_info),
+
+	awful.key({ modkey, "Control" }, "t",               commands.capture_task)
+)
+-- }}}
+--  {{{ Client Buttons
+local clientbuttons = awful.util.table.join(
+	awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
+	awful.button({ modkey }, 1, awful.mouse.client.move),
+	awful.button({ modkey }, 3, awful.mouse.client.resize))
+--  }}}
 awful.rules.rules = {
 	-- All clients will match this rule.
 	{
