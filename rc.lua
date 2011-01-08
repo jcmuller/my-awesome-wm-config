@@ -51,23 +51,6 @@ local sexec  = awful.util.spawn_with_shell
 local default_submenu_position = { x = 525, y = 330 }
 
 -- }}}
--- {{{ Layouts
--- Table of layouts to cover with awful.layout.inc, order matters.
-layouts = {
-	awful.layout.suit.max,
-	awful.layout.suit.max.fullscreen,
-	awful.layout.suit.fair,
-	awful.layout.suit.tile,
-	awful.layout.suit.tile.left,
-	awful.layout.suit.fair.horizontal,
-	awful.layout.suit.tile.bottom,
-	awful.layout.suit.tile.top,
-	awful.layout.suit.spiral,
-	awful.layout.suit.spiral.dwindle,
-	awful.layout.suit.magnifier,
-	awful.layout.suit.floating,
-}
--- }}}
 -- {{{ Function Definitions 
 function show_window_info(c)
 	local geom = c:geometry()
@@ -281,6 +264,23 @@ function dbg(vars)
 	naughty.notify({ text = text, timeout = 0 })
 end
 -- }}}
+-- }}}
+-- {{{ Layouts
+-- Table of layouts to cover with awful.layout.inc, order matters.
+layouts = {
+	awful.layout.suit.max,
+	awful.layout.suit.max.fullscreen,
+	awful.layout.suit.fair,
+	awful.layout.suit.tile,
+	awful.layout.suit.tile.left,
+	awful.layout.suit.fair.horizontal,
+	awful.layout.suit.tile.bottom,
+	awful.layout.suit.tile.top,
+	awful.layout.suit.spiral,
+	awful.layout.suit.spiral.dwindle,
+	awful.layout.suit.magnifier,
+	awful.layout.suit.floating,
+}
 -- }}}
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
