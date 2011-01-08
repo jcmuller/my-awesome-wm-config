@@ -793,7 +793,9 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey, "Shift" }, "d",
 		function ()
 			local word = awful.util.pread("xsel -o")
-			get_definition(word)
+			if word ~= "" then
+				get_definition(word)
+			end
 		end),
 
 	-- Revelation
