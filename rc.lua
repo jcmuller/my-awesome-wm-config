@@ -156,6 +156,13 @@ pianobarmenu = awful.menu.new({
 separator = widget({ type = "imagebox" })
 separator.image = image(beautiful.widget_sep)
 -- }}}
+--{{{ Debug function
+function dbg(vars)
+	local text = ""
+	for i=1, #vars do text = text .. vars[i] .. " | " end
+	naughty.notify({ text = text, timeout = 0 })
+end
+--}}}
 -- {{{ Wibox
 -- {{{ Clock 
 -- Create a textclock widget
