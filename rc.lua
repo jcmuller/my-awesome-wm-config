@@ -306,12 +306,12 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
-   { "restart", awesome.restart },
+   { "manual",              "xterm -e man awesome"},
+   { "edit config",         editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+   { "restart",             awesome.restart },
    { "xautolock lock now", "xautolock -enable; xautolock -locknow" },
-   { "xlock", "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
-   { "quit", awesome.quit }
+   { "xlock",              "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
+   { "quit",               awesome.quit }
 }
 
 mymainmenu = awful.menu.new({
