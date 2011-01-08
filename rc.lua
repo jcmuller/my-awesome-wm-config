@@ -259,6 +259,12 @@ function create_vertical_progress_bar()
 	return bar
 end
 
+-- Change layout and define whether focused client needs border highlighted
+-- @param increment
+function change_layout(inc)
+	awful.layout.inc(layouts, inc)
+	set_client_border_color(client.focus)
+end
 -- {{{ Debug function
 function dbg(vars)
 	local text = ""
@@ -441,22 +447,10 @@ for s = 1, screen.count() do
 	-- We need one layoutbox per screen.
 	mylayoutbox[s] = awful.widget.layoutbox(s)
 	mylayoutbox[s]:buttons(awful.util.table.join(
-		awful.button({ }, 1, function ()
-			awful.layout.inc(layouts, 1)
-			set_client_border_color(client.focus)
-		end),
-		awful.button({ }, 3, function ()
-			awful.layout.inc(layouts, -1)
-			set_client_border_color(client.focus)
-		end),
-		awful.button({ }, 4, function ()
-			awful.layout.inc(layouts, 1)
-			set_client_border_color(client.focus)
-		end),
-		awful.button({ }, 5, function ()
-			awful.layout.inc(layouts, -1)
-			set_client_border_color(client.focus)
-		end)))
+		awful.button({ }, 1, function () change_layout(1) end),
+		awful.button({ }, 3, function () change_layout(-1) end),
+		awful.button({ }, 4, function () change_layout(1) end),
+		awful.button({ }, 5, function () change_layout(-1) end)))
 	-- Create a taglist widget
 	mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
 
@@ -737,14 +731,8 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
 	awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
 
-	awful.key({ modkey,           }, "space", function ()
-		awful.layout.inc(layouts,  1)
-		set_client_border_color(client.focus)
-	end),
-	awful.key({ modkey, "Shift"   }, "space", function ()
-		awful.layout.inc(layouts, -1)
-		set_client_border_color(client.focus)
-	end),
+	awful.key({ modkey,           }, "space", function () change_layout( 1) end),
+	awful.key({ modkey, "Shift"   }, "space", function () change_layout(-1) end),
 
 	-- Music stuff
 	awful.key({ modkey, "Shift"   }, "m", function () show_mpd_menu(default_submenu_position) end),
