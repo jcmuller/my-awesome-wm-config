@@ -295,15 +295,22 @@ end
 -- {{{ My Wibox
 ------------------------------------
 -- {{{ Functions that pop up
+local topnotification = nil
 function show_top_output()
-	local content = awful.util.pread("top -bn1 | head -20")
-
-	naughty.notify({
-		text = content,
-		timeout = 0,
-		font = "Terminus 9",
-		title = "Status"
-	})
+	if not topnotification then
+		topnotification = naughty.notify({
+			text = awful.util.pread("top -bn1 | head -20"),
+			timeout = 0,
+			title = "Status",
+			run = function()
+				naughty.destroy(topnotification)
+				topnotification = nil
+			end
+		})
+	else
+		naughty.destroy(topnotification)
+		topnotification = nil
+	end
 end
 
 function show_df_output()
