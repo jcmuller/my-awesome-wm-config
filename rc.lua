@@ -500,14 +500,16 @@ batterybar = create_vertical_progress_bar()
 vicious.register(batterybar, vicious.widgets.bat, "$2", 61, "BAT0")
 
 -- }}}
--- {{{ MPD
+-- {{{ Music Status
 -- Initialize widget
-mpdicon = widget({ type = "imagebox" })
-mpdicon.image = image(beautiful.widget_music)
+musicicon = widget({ type = "imagebox" })
+musicicon.image = image(beautiful.widget_music)
 
-mpdwidget = widget({ type = "textbox" })
+-- Music widget gets populated by an external application using awesome-client
+musicwidget = widget({ type = "textbox" })
+musicwidget.text = "  -  "
 -- Register widget
---vicious.register(mpdwidget, vicious.widgets.mpd,
+--vicious.register(musicwidget, vicious.widgets.mpd,
 --    function (widget, args)
 --        if args["{state}"] == "Stop" then 
 --            return " - "
@@ -659,11 +661,18 @@ volbar.widget:buttons(awful.util.table.join(
 )) -- Register assigned buttons
 volwidget:buttons(volbar.widget:buttons())
 
-mpdwidget:buttons(awful.util.table.join(
-    awful.button({ }, 1, show_mpd_menu),
-    awful.button({ }, 3, show_mpd_menu)
+musicwidget:buttons(awful.util.table.join(
+	awful.button({ }, 1, show_music_notification),
+	awful.button({ }, 2, show_pianobar_menu),
+	awful.button({ }, 3, show_mpd_menu)
 ))
 
+awful.tooltip({
+	objects = { musicwidget },
+	timer_function = function ()
+		return musiccover.body
+	end,
+})
 
 -- }}}
 -- {{{ Set up
