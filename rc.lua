@@ -44,6 +44,8 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 
+local default_submenu_position = { x = 525, y = 330 }
+
 -- }}}
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -207,20 +209,28 @@ function show_music_notification()
 	end
 end
 
-function show_mpd_menu()
+function show_mpd_menu(position)
+	options = { keygrabber = true }
+	if position then
+		options.coords = position
+	end
 	awful.menu.menu_keys.down  = { "Down",  "j" }
 	awful.menu.menu_keys.up    = { "Up",    "k" }
 	awful.menu.menu_keys.left  = { "Left",  "h" }
 	awful.menu.menu_keys.right = { "Right", "l" }
-	mpdmenu:toggle({ keygrabber = true })
+	mpdmenu:toggle(options)
 end
 
-function show_pianobar_menu()
+function show_pianobar_menu(position)
+	options = { keygrabber = true }
+	if position then
+		options.coords = position
+	end
 	awful.menu.menu_keys.down  = { "Down",  "j" }
 	awful.menu.menu_keys.up    = { "Up",    "k" }
 	awful.menu.menu_keys.left  = { "Left",  "h" }
 	awful.menu.menu_keys.right = { "Right", "l" }
-	pianobarmenu:toggle({ keygrabber = true })
+	pianobarmenu:toggle(options)
 end
 
 function run_once(prg)
@@ -655,9 +665,10 @@ volicon:buttons(volbar.widget:buttons())
 
 musicwidget:buttons(awful.util.table.join(
 	awful.button({ }, 1, show_music_notification),
-	awful.button({ }, 2, show_pianobar_menu),
-	awful.button({ }, 3, show_mpd_menu)
+	awful.button({ }, 2, function () show_pianobar_menu(nil) end),
+	awful.button({ }, 3, function () show_mpd_menu(nil) end)
 ))
+musicicon:buttons(musicwidget:buttons())
 
 awful.tooltip({
 	objects = { musicwidget },
@@ -708,7 +719,7 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "j", function () awful.client.focus.byidx( 1) if client.focus then client.focus:raise() end end),
 	awful.key({ modkey,           }, "k", function () awful.client.focus.byidx(-1) if client.focus then client.focus:raise() end end),
 
-	awful.key({ modkey,           }, "w", function () toggle_main_menu_and_set_keys({ x = 525, y = 330 }) end),
+	awful.key({ modkey,           }, "w", function () toggle_main_menu_and_set_keys(default_submenu_position) end),
 
 	-- Layout manipulation
 	awful.key({ modkey, "Shift"   }, "j",   function () awful.client.swap.byidx(  1) end),
@@ -740,8 +751,8 @@ globalkeys = awful.util.table.join(
 	end),
 
 	-- Music stuff
-	awful.key({ modkey, "Shift"   }, "m", show_mpd_menu),
-	awful.key({ modkey, "Shift"   }, "p", show_pianobar_menu),
+	awful.key({ modkey, "Shift"   }, "m", function () show_mpd_menu(default_submenu_position) end),
+	awful.key({ modkey, "Shift"   }, "p", function () show_pianobar_menu(default_submenu_position) end),
 
 	-- Prompt
 	awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
@@ -768,7 +779,7 @@ globalkeys = awful.util.table.join(
 
 			local cmenu = awful.menu.clients(
 				{ width = 245 },
-				{ keygrabber = true, coords = { x = 525, y = 330 } }
+				{ keygrabber = true, coords = default_submenu_position }
 			)
 			cmenu:geometry({x=100, y=200})
 		end),
