@@ -83,6 +83,8 @@ function toggle_maximized(c)
 	c.maximized_horizontal = not c.maximized_horizontal
 	c.maximized_vertical   = not c.maximized_vertical
 	set_client_border_color(c)
+	client.focus = c
+	c:raise()
 end
 
 function focus_last_focused()
