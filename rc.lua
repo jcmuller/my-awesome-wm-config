@@ -62,6 +62,213 @@ layouts = {
     awful.layout.suit.floating,
 }
 -- }}}
+-- {{{ Function Definitions 
+function show_window_info(c)
+	local geom = c:geometry()
+
+	local t = ""
+	if c.class    then t = t .. "<b>Class</b>: "    .. c.class    .. "\n" end
+	if c.instance then t = t .. "<b>Instance</b>: " .. c.instance .. "\n" end
+	if c.role     then t = t .. "<b>Role</b>: "     .. c.role     .. "\n" end
+	if c.name     then t = t .. "<b>Name</b>: "     .. c.name     .. "\n" end
+	if c.type     then t = t .. "<b>Type</b>: "     .. c.type     .. "\n" end
+	if geom.width and geom.height and geom.x and geom.y then
+		t = t .. "<b>Dimensions</b>: <b>x</b>:" .. geom.x .. "<b> y</b>:" .. geom.y .. "<b> w</b>:" .. geom.width .. "<b> h</b>:" .. geom.height
+	end
+
+	naughty.notify({
+		text = t,
+		timeout = 30
+	})
+end
+
+function toggle_titlebar(c)
+	if c.titlebar then
+		awful.titlebar.remove(c)
+	else
+		awful.titlebar.add(c, { modkey = modkey })
+	end
+end
+
+function toggle_maximized(c)
+	c.maximized_horizontal = not c.maximized_horizontal
+	c.maximized_vertical   = not c.maximized_vertical
+	set_client_border_color(c)
+end
+
+function focus_last_focused()
+	awful.client.focus.history.previous()
+	if client.focus then
+		client.focus:raise()
+	end
+end
+
+function toggle_main_menu_and_set_keys(position)
+	options = { keygrabber = true }
+	if position then
+		options.coords = position
+	end
+	awful.menu.menu_keys.down  = { "Down",  "j" }
+	awful.menu.menu_keys.up    = { "Up",    "k" }
+	awful.menu.menu_keys.left  = { "Left",  "h" }
+	awful.menu.menu_keys.right = { "Right", "l" }
+	mymainmenu:toggle(options)
+	--mymainmenu:show({ keygrabber = true, coords = { x = 900, y = 330 } })
+end
+
+function dmenu_prompt()
+	sexec("exec `dmenu_path | dmenu -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'`")
+end
+
+local calendar = nil
+function toggle_calendar()
+	if not calendar then
+		calendar = naughty.notify({
+			text = awful.util.pread("calendar2.pl"),
+			timeout = 0,
+			title = "Calendar",
+			run = function()
+				hide_calendar()
+			end
+		})
+	else
+		hide_calendar()
+	end
+end
+
+function hide_calendar()
+	--clockclicked = false
+	naughty.destroy(calendar)
+	calendar = nil
+end
+
+local topnotification = nil
+function show_top_output()
+	if not topnotification then
+		topnotification = naughty.notify({
+			text = awful.util.pread("top -bn1 | head -20"),
+			timeout = 0,
+			title = "Status",
+			run = function()
+				naughty.destroy(topnotification)
+				topnotification = nil
+			end
+		})
+	else
+		naughty.destroy(topnotification)
+		topnotification = nil
+	end
+end
+
+local dfnotification = nil
+function show_df_output()
+	if not dfnotification then
+		dfnotification = naughty.notify({
+			text = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl"),
+			timeout = 0,
+			title = "File System",
+			run = function()
+				naughty.destroy(dfnotification)
+				dfnotification = nil
+			end
+		})
+	else
+		naughty.destroy(dfnotification)
+		dfnotification = nil
+	end
+end
+
+-- This will be set from an external utility
+musiccover = {
+	path = '',
+	body = ''
+}
+
+local musicnotification = nil
+function show_music_notification()
+	if musiccover.path == "" then
+		return
+	else
+		if not musicnotification then
+			musicnotification = naughty.notify({
+				timeout = 0,
+				icon = musiccover.path,
+				text = musiccover.body,
+				position = "bottom_right",
+				run = function()
+					naughty.destroy(musicnotification)
+					musicnotification = nil
+				end
+			})
+		else
+			naughty.destroy(musicnotification)
+			musicnotification = nil
+		end
+	end
+end
+
+function show_mpd_menu()
+	awful.menu.menu_keys.down  = { "Down",  "j" }
+	awful.menu.menu_keys.up    = { "Up",    "k" }
+	awful.menu.menu_keys.left  = { "Left",  "h" }
+	awful.menu.menu_keys.right = { "Right", "l" }
+	mpdmenu:toggle({ keygrabber = true })
+end
+
+function show_pianobar_menu()
+	awful.menu.menu_keys.down  = { "Down",  "j" }
+	awful.menu.menu_keys.up    = { "Up",    "k" }
+	awful.menu.menu_keys.left  = { "Left",  "h" }
+	awful.menu.menu_keys.right = { "Right", "l" }
+	pianobarmenu:toggle({ keygrabber = true })
+end
+
+function run_once(prg)
+	if not prg then
+		do return nil end
+	end
+	awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
+end
+
+function set_client_border_color(c)
+	if c then
+		if not (
+			awful.layout.get(c.screen) == awful.layout.suit.max
+			or awful.layout.get(c.screen) == awful.layout.suit.max.fullscreen
+			or awful.layout.get(c.screen) == awful.layout.suit.magnifier
+			or (c.maximized_horizontal and c.maximized_vertical)
+			or c.fullscreen
+		) then
+			c.border_color = beautiful.border_focus
+		else
+			c.border_color = beautiful.border_normal
+		end
+	end
+end
+
+function create_vertical_progress_bar()
+	bar = awful.widget.progressbar()
+	bar:set_vertical(true)
+	bar:set_width(8)
+	bar:set_border_color(beautiful.border_widget)
+	bar:set_background_color(beautiful.fg_off_widget)
+	bar:set_gradient_colors ({
+		beautiful.fg_widget,
+		beautiful.fg_center_widget,
+		beautiful.fg_end_widget
+	})
+
+	return bar
+end
+
+-- {{{ Debug function
+function dbg(vars)
+	local text = ""
+	for i=1, #vars do text = text .. vars[i] .. " | " end
+	naughty.notify({ text = text, timeout = 0 })
+end
+-- }}}
+-- }}}
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 labels1 = { "M", "W", "3", "S", "P", "6", "7"}
@@ -154,13 +361,6 @@ pianobarmenu = awful.menu.new({
 separator = widget({ type = "imagebox" })
 separator.image = image(beautiful.widget_sep)
 -- }}}
---{{{ Debug function
-function dbg(vars)
-	local text = ""
-	for i=1, #vars do text = text .. vars[i] .. " | " end
-	naughty.notify({ text = text, timeout = 0 })
-end
---}}}
 -- {{{ Wibox
 -- {{{ Clock 
 -- Create a textclock widget
@@ -172,28 +372,6 @@ awful.tooltip({
 		return awful.util.pread("calendar2.pl")
 	end,
 })
-
-local calendar = nil
-function toggle_calendar()
-	if not calendar then
-		calendar = naughty.notify({
-			text = awful.util.pread("calendar2.pl"),
-			timeout = 0,
-			title = "Calendar",
-			run = function()
-				hide_calendar()
-			end
-		})
-	else
-		hide_calendar()
-	end
-end
-
-function hide_calendar()
-	--clockclicked = false
-	naughty.destroy(calendar)
-	calendar = nil
-end
 
 --local clockclicked = false
 myclock:buttons(awful.util.table.join(awful.button({}, 1, toggle_calendar)))
@@ -291,69 +469,6 @@ end
 -- }}}
 -- }}}
 -- {{{ My Wibox
-------------------------------------
--- {{{ Functions that pop up
-local topnotification = nil
-function show_top_output()
-	if not topnotification then
-		topnotification = naughty.notify({
-			text = awful.util.pread("top -bn1 | head -20"),
-			timeout = 0,
-			title = "Status",
-			run = function()
-				naughty.destroy(topnotification)
-				topnotification = nil
-			end
-		})
-	else
-		naughty.destroy(topnotification)
-		topnotification = nil
-	end
-end
-
-local dfnotification = nil
-function show_df_output()
-	if not dfnotification then
-		dfnotification = naughty.notify({
-			text = awful.util.pread("df -P | sort -k5nr | fmt_sizes_df.pl"),
-			timeout = 0,
-			title = "File System",
-			run = function()
-				naughty.destroy(dfnotification)
-				dfnotification = nil
-			end
-		})
-	else
-		naughty.destroy(dfnotification)
-		dfnotification = nil
-	end
-end
-
-	naughty.notify({
-		text = content,
-		timeout = 0,
-		font = "Terminus 9",
-		title = "File System"
-	})
-end
-
-function show_mpd_menu()
-	awful.menu.menu_keys.down  = { "Down",  "j" }
-	awful.menu.menu_keys.up    = { "Up",    "k" }
-	awful.menu.menu_keys.left  = { "Left",  "h" }
-	awful.menu.menu_keys.right = { "Right", "l" }
-	mpdmenu:toggle({ keygrabber = true })
-end
-
-function show_pianobar_menu()
-	awful.menu.menu_keys.down  = { "Down",  "j" }
-	awful.menu.menu_keys.up    = { "Up",    "k" }
-	awful.menu.menu_keys.left  = { "Left",  "h" }
-	awful.menu.menu_keys.right = { "Right", "l" }
-	pianobarmenu:toggle({ keygrabber = true })
-end
-
--- }}}
 -- {{{ set vicious caching
 vicious.cache(vicious.widgets.mem)
 vicious.cache(vicious.widgets.cpu)
@@ -1017,13 +1132,6 @@ client.add_signal("focus",   function(c) c.border_color = beautiful.border_focus
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 -- {{{ Autostart
-function run_once(prg)
-	if not prg then
-		do return nil end
-	end
-	awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
-end
-
 -- Clipboard Manager
 --os.execute("klipper &")
 --os.execute("parcellite &")
