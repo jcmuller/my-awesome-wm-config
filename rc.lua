@@ -64,7 +64,7 @@ layouts = {
 -- }}}
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-labels1 = { "1", "2", "3", "4", "5", "6", }
+labels1 = { "1", "2", "3", "4", "5", "6", "7"}
 
 --tags = {}
 --tags[1] = awful.tag(labels1, 1, awful.layout.suit.magnifier)
@@ -78,8 +78,8 @@ tags = {
 				layouts[3],
 				layouts[1],
 				layouts[3],
-				layouts[4],
-				layouts[3],
+				layouts[2],
+				layouts[2],
 				layouts[3],
 				layouts[3],
 			}
