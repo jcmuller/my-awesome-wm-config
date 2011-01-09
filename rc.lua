@@ -489,7 +489,6 @@ for s = 1, screen.count() do
 		mytasklist[s], separator,
 		layout = awful.widget.layout.horizontal.rightleft
 	}
-
 end
 -- }}}
 -- }}}
