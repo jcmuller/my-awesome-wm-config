@@ -271,6 +271,20 @@ function get_definition(word)
 	f:close()
 	naughty.notify({ text = fr, timeout = 0, width = 450 })
 end
+
+local clientsmenu = nil
+function toggle_clients_menu(default_position)
+	local options = { keygrabber = true }
+	if default_position then
+		options.coords = default_submenu_position
+	end
+	if clientsmenu then
+		clientsmenu:hide()
+		clientsmenu = nil
+	else
+		clientsmenu = awful.menu.clients({ width = 250 }, options)
+	end
+end
 -- {{{ Debug function
 function dbg(vars)
 	local text = ""
@@ -428,14 +442,7 @@ mytasklist.buttons = awful.util.table.join(
 		client.focus = c
 		c:raise()
 	end),
-	awful.button({ }, 3, function ()
-		if instance then
-			instance:hide()
-			instance = nil
-		else
-			instance = awful.menu.clients({ width=250 })
-		end
-	end),
+	awful.button({ }, 3, function () toggle_clients_menu(false) end),
 	awful.button({ }, 4, function ()
 		awful.client.focus.byidx(1)
 		if client.focus then client.focus:raise() end
@@ -761,19 +768,13 @@ globalkeys = awful.util.table.join(
 		end),
 
 	-- Task list
-	awful.key({ "Mod1" }, "Escape",
-		function ()
-			awful.menu.menu_keys.down  = { "Down",  "j" }
-			awful.menu.menu_keys.up    = { "Up",    "k" }
-			awful.menu.menu_keys.left  = { "Left",  "h" }
-			awful.menu.menu_keys.right = { "Right", "l" }
-
-			local cmenu = awful.menu.clients(
-				{ width = 245 },
-				{ keygrabber = true, coords = default_submenu_position }
-			)
-			cmenu:geometry({x=100, y=200})
-		end),
+	awful.key({ "Mod1" }, "Escape", function ()
+		if clientsmenu then
+			clientsmenu:hide()
+			clientsmenu = nil
+		end
+		toggle_clients_menu(true)
+	end),
 
 	-- Present user with a prompt to enter a word to look for its definition
 	awful.key({ modkey }, "d",
