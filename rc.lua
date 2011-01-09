@@ -50,6 +50,13 @@ local sexec  = awful.util.spawn_with_shell
 
 local default_submenu_position = { x = 525, y = 330 }
 
+-- Define menu keys
+awful.menu.menu_keys.down  = { "Down",   "j" }
+awful.menu.menu_keys.up    = { "Up",     "k" }
+awful.menu.menu_keys.exec  = { "Right",  "l", "Return" }
+awful.menu.menu_keys.back  = { "Left",   "h", "Backspace" }
+awful.menu.menu_keys.close = { "Escape" }
+
 -- }}}
 -- {{{ Function Definitions 
 function show_window_info(c)
@@ -99,10 +106,6 @@ function toggle_main_menu_and_set_keys(position)
 	if position then
 		options.coords = position
 	end
-	awful.menu.menu_keys.down  = { "Down",  "j" }
-	awful.menu.menu_keys.up    = { "Up",    "k" }
-	awful.menu.menu_keys.left  = { "Left",  "h" }
-	awful.menu.menu_keys.right = { "Right", "l" }
 	mymainmenu:toggle(options)
 end
 
@@ -202,10 +205,6 @@ function show_mpd_menu(position)
 	if position then
 		options.coords = position
 	end
-	awful.menu.menu_keys.down  = { "Down",  "j" }
-	awful.menu.menu_keys.up    = { "Up",    "k" }
-	awful.menu.menu_keys.left  = { "Left",  "h" }
-	awful.menu.menu_keys.right = { "Right", "l" }
 	mpdmenu:toggle(options)
 end
 
@@ -214,10 +213,6 @@ function show_pianobar_menu(position)
 	if position then
 		options.coords = position
 	end
-	awful.menu.menu_keys.down  = { "Down",  "j" }
-	awful.menu.menu_keys.up    = { "Up",    "k" }
-	awful.menu.menu_keys.left  = { "Left",  "h" }
-	awful.menu.menu_keys.right = { "Right", "l" }
 	pianobarmenu:toggle(options)
 end
 
