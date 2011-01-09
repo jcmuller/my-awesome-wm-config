@@ -1099,13 +1099,10 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 -- {{{ Autostart
 -- Clipboard Manager
---os.execute("klipper &")
---os.execute("parcellite &")
 run_once("parcellite")
 -- Network Manager
 os.execute("nm-applet &")
 -- Power Manager
---os.execute("jupiter.exe &")
 run_once("jupiter")
 -- Set caps lock as control
 os.execute("xmodmap ~/.Xmodmap &")
@@ -1115,7 +1112,6 @@ os.execute("gnome-power-manager &")
 -- Gnome settings
 os.execute("/usr/lib/gnome-settings-daemon/gnome-settings-daemon &")
 -- First terminal
---os.execute("gnome-terminal &")
 run_once(commands.terminal)
 -- }}}
 
