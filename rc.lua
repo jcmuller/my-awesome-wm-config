@@ -1119,4 +1119,4 @@ os.execute("/usr/lib/gnome-settings-daemon/gnome-settings-daemon &")
 run_once(commands.terminal)
 -- }}}
 
--- vim:set foldmethod=marker noexpandtab sw=4 ts=4:
+-- vim:set ft=lua foldmethod=marker noexpandtab sw=4 ts=4:
