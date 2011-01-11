@@ -48,13 +48,18 @@ require("aweswt")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-local commands = {}
-commands.terminal         = "gnome-terminal"
-commands.editor           = "gvim"
-commands.browser_chrome   = "google-chrome"
-commands.browser_firefox  = "firefox"
-commands.capture_task     = "capture_task.sh"
-commands.suspend          = "/usr/sbin/pm-suspend"
+local commands = {
+	terminal         = "gnome-terminal",
+	editor           = "gvim",
+	browser_chrome   = "google-chrome",
+	browser_firefox  = "firefox",
+	capture_task     = "capture_task.sh",
+	suspend          = "/usr/sbin/pm-suspend",
+	touchpad = {
+		enable = "synclient touchpadoff=0",
+		disable = "synclient touchpadoff=1",
+	},
+}
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -368,11 +373,13 @@ myawesomemenu = {
 mymainmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "awesome",       myawesomemenu, beautiful.awesome_icon },
-		{ "open firefox",  commands.browser_firefox },
-		{ "open chrome",   commands.browser_chrome },
-		{ "stand by",      commands.suspend },
-		{ "open terminal", commands.terminal },
+		{ "awesome",          myawesomemenu, beautiful.awesome_icon },
+		{ "open firefox",     commands.browser_firefox },
+		{ "open chrome",      commands.browser_chrome },
+		{ "stand by",         commands.suspend },
+		{ "disable touchpad", commands.touchpad.disable },
+		{ "enable touchpad",  commands.touchpad.enable },
+		{ "open terminal",    commands.terminal },
 	}
 })
 
@@ -1113,6 +1120,8 @@ os.execute("gnome-power-manager &")
 os.execute("/usr/lib/gnome-settings-daemon/gnome-settings-daemon &")
 -- First terminal
 run_once(commands.terminal)
+-- Make touchpad controls
+os.execute("killall syndaemon && syndaemon -di60")
 -- }}}
 
 -- vim:set ft=lua foldmethod=marker noexpandtab sw=4 ts=4:
