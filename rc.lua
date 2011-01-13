@@ -54,12 +54,15 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local commands = {
-	terminal         = "gnome-terminal",
-	editor           = "gvim",
-	browser_chrome   = "google-chrome",
-	browser_firefox  = "firefox",
-	capture_task     = "capture_task.sh",
-	suspend          = "/usr/sbin/pm-suspend",
+	terminal        = "gnome-terminal",
+	editor          = "gvim",
+	browser_chrome  = "google-chrome",
+	browser_firefox = "firefox",
+	capture_task    = "capture_task.sh",
+	suspend         = "/usr/sbin/pm-suspend",
+	manual          = "xterm -e man awesome",
+	autolock_now    = "xautolock -enable && xautolock -locknow",
+	xlock           = "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank",
 	touchpad = {
 		enable = "synclient touchpadoff=0",
 		disable = "synclient touchpadoff=1",
@@ -367,24 +370,29 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-	{ "manual",              "xterm -e man awesome"},
-	{ "edit config",         commands.editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
-	{ "restart",             awesome.restart },
-	{ "xautolock lock now", "xautolock -enable; xautolock -locknow" },
-	{ "xlock",              "xlock +usefirst -echokey '*' -echokeys -timeout 3 -lockdelay 5 -mode blank" },
-	{ "quit",               awesome.quit }
+	{ "manual",      commands.manual},
+	{ "edit config", commands.editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+	{ "restart",     awesome.restart },
+	{ "quit",        awesome.quit },
+}
+
+menuutils = {
+	{ "disable touchpad",   commands.touchpad.disable },
+	{ "enable touchpad",    commands.touchpad.enable },
+	{ "stand by",           commands.suspend },
+	{ "xautolock lock now", commands.autolock_now },
+	{ "xlock",              commands.xlock },
 }
 
 mymainmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "awesome",          myawesomemenu, beautiful.awesome_icon },
-		{ "open firefox",     commands.browser_firefox },
-		{ "open chrome",      commands.browser_chrome },
-		{ "stand by",         commands.suspend },
-		{ "disable touchpad", commands.touchpad.disable },
-		{ "enable touchpad",  commands.touchpad.enable },
-		{ "open terminal",    commands.terminal },
+		{ "awesome",  myawesomemenu, beautiful.awesome_icon },
+		{ "utils",    menuutils },
+		{ "chrome",   commands.browser_chrome },
+		{ "editor",   commands.editor },
+		{ "firefox",  commands.browser_firefox },
+		{ "terminal", commands.terminal },
 	}
 })
 
