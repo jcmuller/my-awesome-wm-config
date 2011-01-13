@@ -17,6 +17,11 @@
 
 -- Awesome configuration
 
+-- TODO
+-- globalkeys:
+-- 	* Check if tag key pressed is different from current tag, and only change
+-- 	  if so. This will prevent the history form getting messed up.
+
 -- {{{ Libraries 
 -- Standard awesome library
 require("awful")
