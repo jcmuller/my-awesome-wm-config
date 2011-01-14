@@ -131,5 +131,4 @@ theme.widget_wifi   = theme.icons .. "/wifi.png"
 -- }}}
 
 return theme
-
 -- vim:set filetype=lua expandtab shiftwidth=4 tabstop=8 softtabstop=4 textwidth=80 foldmethod=marker nospell:
