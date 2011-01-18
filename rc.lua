@@ -252,7 +252,7 @@ function run_once(prg)
 	if not prg then
 		do return nil end
 	end
-	awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
+	sexec("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
 end
 
 function set_client_border_color(c)
