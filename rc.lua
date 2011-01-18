@@ -67,6 +67,14 @@ local commands = {
 		enable = "synclient touchpadoff=0",
 		disable = "synclient touchpadoff=1",
 	},
+	pianobar = {
+		toggle = "pianobar-toggle",
+		status = "pianobar-status",
+		pause  = "pianobar-pause",
+		next   = "pianobar-next",
+		love   = "pianobar-love",
+		ban    = "pianobar-ban",
+	},
 }
 
 -- Default modkey.
@@ -431,12 +439,12 @@ mpdmenu = awful.menu.new({
 pianobarmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "toggle", "pianobar-toggle" },
-		{ "status", "pianobar-status" },
-		{ "pause",  "pianobar-pause" },
-		{ "next",   "pianobar-next" },
-		{ "love",   "pianobar-love" },
- 		{ "ban",    "pianobar-ban" },
+		{ "toggle", commands.pianobar.toggle },
+		{ "status", commands.pianobar.status },
+		{ "pause",  commands.pianobar.pause  },
+		{ "next",   commands.pianobar.next   },
+		{ "love",   commands.pianobar.love   },
+		{ "ban",    commands.pianobar.ban    },
 		{ "pianobar" },
 	}
 })
