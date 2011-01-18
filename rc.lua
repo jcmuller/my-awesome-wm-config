@@ -317,6 +317,19 @@ function toggle_clients_menu(default_position)
 		clientsmenu = awful.menu.clients({ width = 250 }, options)
 	end
 end
+
+function change_volume(lower)
+	local sign = '+'
+	if lower == true then
+		sign = '-'
+	end
+	exec("amixer -q set Master 2dB" .. sign)
+	local vol =  awful.util.pread("amixer get Master | fgrep dB")
+	local i
+	i, i, vol = string.find(vol, '(%d+)%%')
+	volwidget.text = string.format(" %d%% ", vol)
+	awful.widget.progressbar.set_value(volbar, vol / 100)
+end
 -- {{{ Debug function
 function dbg(vars)
 	local text = ""
@@ -698,8 +711,8 @@ end
 
 volbar.widget:buttons(awful.util.table.join(
 	awful.button({ }, 1, function () exec("gnome-volume-control") end),
-	awful.button({ }, 4, function () exec("amixer -q set Master 2dB+", false) end),
-	awful.button({ }, 5, function () exec("amixer -q set Master 2dB-", false) end)
+	awful.button({ }, 4, function () change_volume(false) end),
+	awful.button({ }, 5, function () change_volume(true) end)
 )) -- Register assigned buttons
 volwidget:buttons(volbar.widget:buttons())
 volicon:buttons(volbar.widget:buttons())
