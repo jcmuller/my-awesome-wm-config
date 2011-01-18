@@ -814,8 +814,16 @@ local globalkeys = awful.util.table.join(
 	end),
 
 	-- Music stuff
-	awful.key({ modkey, "Shift"   }, "m", function () show_mpd_menu(default_submenu_position) end),
-	awful.key({ modkey, "Shift"   }, "p", function () show_pianobar_menu(default_submenu_position) end),
+	awful.key({ modkey, "Shift"   }, "m",   function () show_mpd_menu(default_submenu_position) end),
+	awful.key({ modkey, "Shift"   }, "p",   function () show_pianobar_menu(default_submenu_position) end),
+	awful.key({ "Shift"           }, "F6",  function () exec(commands.pianobar.status) end),
+	awful.key({ "Shift"           }, "F7",  function () naughty.notify({ text = "Imagine that pandora can go backwards." }) end),
+	awful.key({ "Shift"           }, "F8",  function () exec(commands.pianobar.toggle) end),
+	awful.key({ "Shift"           }, "F9",  function () exec(commands.pianobar.next) end),
+	awful.key({ "Shift"           }, "F10", function () naughty.notify({ text = "Imagine that the volume is muted." }) end),
+	awful.key({ "Shift"           }, "F11", function () change_volume(true)  end),
+	awful.key({ "Shift"           }, "F12", function () change_volume(false) end),
+
 
 	-- Prompt
 	awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
