@@ -807,6 +807,12 @@ local globalkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "space", function () change_layout( 1) end),
 	awful.key({ modkey, "Shift"   }, "space", function () change_layout(-1) end),
 
+	awful.key({ modkey            }, "b", function ()
+		local show = not mywibox[mouse.screen].visible
+		mywibox[mouse.screen].visible = show
+		mywibox2.visible = show
+	end),
+
 	-- Music stuff
 	awful.key({ modkey, "Shift"   }, "m", function () show_mpd_menu(default_submenu_position) end),
 	awful.key({ modkey, "Shift"   }, "p", function () show_pianobar_menu(default_submenu_position) end),
