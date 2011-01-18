@@ -924,6 +924,9 @@ root.keys(globalkeys)
 local clientkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "f",               function (c) c.fullscreen = not c.fullscreen set_client_border_color(c) end),
 	awful.key({ modkey, "Shift"   }, "c",               function (c) c:kill() end),
+	-- Teporary work around. 
+	-- 	Super + Shift + C doesn't seem to be working on my keyboard.
+	awful.key({ modkey, "Shift"   }, "w",               function (c) c:kill() end),
 	awful.key({ modkey, "Control" }, "space",           awful.client.floating.toggle),
 	awful.key({ modkey, "Control" }, "Return",          function (c) c:swap(awful.client.getmaster()) end),
 	awful.key({ modkey,           }, "o",               awful.client.movetoscreen),
