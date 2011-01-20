@@ -158,6 +158,8 @@ function toggle_main_menu_and_set_keys(position)
 	if position then
 		options.coords = position
 	end
+	mpdmenu:hide()
+	pianobarmenu:hide()
 	mymainmenu:toggle(options)
 end
 
@@ -257,6 +259,8 @@ function show_mpd_menu(position)
 	if position then
 		options.coords = position
 	end
+	mymainmenu:hide()
+	pianobarmenu:hide()
 	mpdmenu:toggle(options)
 end
 
@@ -265,6 +269,8 @@ function show_pianobar_menu(position)
 	if position then
 		options.coords = position
 	end
+	mymainmenu:hide()
+	mpdmenu:hide()
 	pianobarmenu:toggle(options)
 end
 
