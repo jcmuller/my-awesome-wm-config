@@ -344,17 +344,46 @@ function toggle_clients_menu(default_position)
 	end
 end
 
+function get_volume()
+
+    local mixer_state = {
+        ["on"]  = "♫", -- "",
+        ["off"] = "♩"  -- "M"
+    }
+
+    -- Get mixer control contents
+    local f = io.popen("amixer get Master")
+    local mixer = f:read("*all")
+    f:close()
+
+    -- Capture mixer control state:          [5%] ... ... [on]
+    local vol, mute = string.match(mixer, "([%d]+)%%.*%[([%l]*)")
+
+    -- Handle mixers without mute
+    if mute == "" and vol == "0"
+    -- Handle mixers that are muted
+    or mute == "off" then
+       mute = mixer_state["off"]
+    else
+       mute = mixer_state["on"]
+    end
+
+	volwidget.text = string.format("%s%s", vol, mute)
+	awful.widget.progressbar.set_value(volbar, tonumber(vol) / 100)
+end
+
 function change_volume(lower)
 	local sign = '+'
 	if lower == true then
 		sign = '-'
 	end
-	exec("amixer -q set Master 2dB" .. sign)
-	local vol =  awful.util.pread("amixer get Master | fgrep dB")
-	local i
-	i, i, vol = string.find(vol, '(%d+)%%')
-	volwidget.text = string.format(" %d%% ", vol)
-	awful.widget.progressbar.set_value(volbar, vol / 100)
+	exec("amixer -q set Master 2dB" .. sign, false)
+	get_volume()
+end
+
+function mute_volume()
+	exec("amixer -q set Master toggle", false)
+	get_volume()
 end
 -- {{{ Debug function
 function dbg(vars)
@@ -712,10 +741,10 @@ volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
 
 volwidget = widget({ type = "textbox" })
-vicious.register(volwidget, vicious.widgets.volume, " $1% ", 5, "Master")
+vicious.register(volwidget, vicious.widgets.volume, "$1$2", 11, "Master")
 
 volbar    = create_vertical_progress_bar()
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  5, "Master")
+vicious.register(volbar,    vicious.widgets.volume,  "$1",  11, "Master")
 -- }}}
 -- {{{ Network usage
 dnicon = widget({ type = "imagebox" })
@@ -749,6 +778,7 @@ end
 
 volbar.widget:buttons(awful.util.table.join(
 	awful.button({ }, 1, function () exec("gnome-volume-control") end),
+	awful.button({ }, 2, mute_volume),
 	awful.button({ }, 4, function () change_volume(false) end),
 	awful.button({ }, 5, function () change_volume(true) end)
 )) -- Register assigned buttons
@@ -850,7 +880,7 @@ local globalkeys = awful.util.table.join(
 	awful.key({ "Shift"           }, "F7",  function () naughty.notify({ text = "Imagine that pandora can go backwards." }) end),
 	awful.key({ "Shift"           }, "F8",  function () exec(commands.pianobar.toggle) end),
 	awful.key({ "Shift"           }, "F9",  function () exec(commands.pianobar.next) end),
-	awful.key({ "Shift"           }, "F10", function () naughty.notify({ text = "Imagine that the volume is muted." }) end),
+	awful.key({ "Shift"           }, "F10", mute_volume),
 	awful.key({ "Shift"           }, "F11", function () change_volume(true)  end),
 	awful.key({ "Shift"           }, "F12", function () change_volume(false) end),
 
