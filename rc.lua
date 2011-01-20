@@ -1044,12 +1044,12 @@ awful.rules.rules = {
 	{
 		rule = { class = "Eog" },
 		properties = { floating = true },
-		callback = awful.titlebar.add
+		callback = function (c) awful.titlebar.add(c, { modkey = modkey }) end,
 	},
 	{
 		rule = { class = "display" },
 		properties = { floating = true },
-		callback = awful.titlebar.add
+		callback = function (c) awful.titlebar.add(c, { modkey = modkey }) end,
 	},
 	{
 		rule = { class = "FbPager" },
@@ -1064,7 +1064,7 @@ awful.rules.rules = {
 	{
 		rule = { class = "Gvim" },
 		--properties = { floating = true },
-		--callback = awful.titlebar.add
+		--callback = function (c) awful.titlebar.add(c, { modkey = modkey }) end,
 	},
 	{
 		rule = { class = "Gtg" },
@@ -1102,8 +1102,10 @@ awful.rules.rules = {
 			tag = tags[1][4]
 		},
 		callback = function (c)
-			c:geometry({x=2336, y=18, width=244, height=448})
-		end
+			--c:geometry({x=2336, y=18, width=244, height=448})
+			-- Force it to be the master client
+			--c:swap(awful.client.getmaster())
+		end,
 	},
 	{
 		rule = { class = "Skype", role = "Chats" },
@@ -1112,7 +1114,9 @@ awful.rules.rules = {
 			tag = tags[1][4]
 		},
 		callback = function (c)
-			c:geometry({width=515, height=252})
+			--c:geometry({width=515, height=252})
+			awful.client.setslave(c)
+			awful.titlebar.add(c, { modkey = modkey })
 		end
 	},
 	{
@@ -1123,7 +1127,9 @@ awful.rules.rules = {
 			tag = tags[1][5]
 		},
 		callback = function (c)
-			c:geometry({x=2336, y=18, width=244, height=448})
+			--c:geometry({x=2336, y=18, width=244, height=448})
+			-- Force it to be the master client
+			--c:swap(awful.client.getmaster())
 		end
 	},
 	{
@@ -1133,7 +1139,8 @@ awful.rules.rules = {
 			tag = tags[1][5]
 		},
 		callback = function (c)
-			c:geometry({width=515, height=252})
+			--c:geometry({width=515, height=252})
+			awful.client.setslave(c)
 		end
 	},
 	{
