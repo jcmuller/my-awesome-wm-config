@@ -68,12 +68,16 @@ local commands = {
 		disable = "synclient touchpadoff=1",
 	},
 	pianobar = {
-		toggle = "pianobar-toggle",
-		status = "pianobar-status",
-		pause  = "pianobar-pause",
-		next   = "pianobar-next",
-		love   = "pianobar-love",
-		ban    = "pianobar-ban",
+		toggle  = "pianobar-toggle",
+		status  = "pianobar-status",
+		stop    = "pianobar-stop",
+		next    = "pianobar-next",
+		love    = "pianobar-love",
+		ban     = "pianobar-ban",
+		station = "pianobar-choose-station",
+	},
+	awesome = {
+		debug   = "awesome-debug.sh"
 	},
 }
 
@@ -393,6 +397,7 @@ end
 myawesomemenu = {
 	{ "manual",      commands.manual},
 	{ "edit config", commands.editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+	{ "debug",       commands.awesome.debug },
 	{ "restart",     awesome.restart },
 	{ "quit",        awesome.quit },
 }
@@ -439,12 +444,13 @@ mpdmenu = awful.menu.new({
 pianobarmenu = awful.menu.new({
 	auto_expand = true,
 	items = {
-		{ "toggle", commands.pianobar.toggle },
-		{ "status", commands.pianobar.status },
-		{ "pause",  commands.pianobar.pause  },
-		{ "next",   commands.pianobar.next   },
-		{ "love",   commands.pianobar.love   },
-		{ "ban",    commands.pianobar.ban    },
+		{ "play/pause", commands.pianobar.toggle  },
+		{ "status",     commands.pianobar.status  },
+		{ "stop",       commands.pianobar.stop   },
+		{ "next",       commands.pianobar.next    },
+		{ "station",    commands.pianobar.station },
+		{ "love",       commands.pianobar.love    },
+		{ "ban",        commands.pianobar.ban     },
 		{ "pianobar" },
 	}
 })
