@@ -130,6 +130,14 @@ function toggle_titlebar(c)
 	end
 end
 
+function toggle_minimized(c)
+	c.minimized = not c.minimized
+end
+
+function toggle_maximized_vertical(c)
+	c.maximized_vertical = not c.maximized_vertical
+end
+
 function toggle_maximized(c)
 	c.maximized_horizontal = not c.maximized_horizontal
 	c.maximized_vertical   = not c.maximized_vertical
@@ -938,9 +946,9 @@ local clientkeys = awful.util.table.join(
 	awful.key({ modkey,           }, "o",               awful.client.movetoscreen),
 	awful.key({ modkey, "Shift"   }, "r",               function (c) c:redraw() end),
 	awful.key({ modkey, "Shift"   }, "t",               function (c) c.ontop = not c.ontop end),
-	awful.key({ modkey,           }, "n",               function (c) c.minimized = not c.minimized end),
+	awful.key({ modkey,           }, "n",               toggle_minimized),
 	awful.key({ modkey,           }, "m",               toggle_maximized),
-	awful.key({ modkey,           }, "v",               function (c) c.maximized_vertical = not c.maximized_vertical end),
+	awful.key({ modkey,           }, "v",               toggle_maximized_vertical),
 	awful.key({ modkey,           }, "t",               toggle_titlebar),
 	awful.key({ modkey,           }, "s",               function (c) c.sticky = not c.sticky end),
 
