@@ -633,7 +633,17 @@ cpuwidget = widget({ type = "textbox" })
 vicious.register(cpuwidget, vicious.widgets.cpu, string.format("%3s%%", "$1"), 10)
 
 cpufreq = widget({ type = "textbox" })
-vicious.register(cpufreq, vicious.widgets.cpufreq, string.format("%4sMHz ", "$1"), 10, "cpu0")
+vicious.register(cpufreq, vicious.widgets.cpufreq,
+	function (widget, args)
+		local v, u = args[2], "GHz"
+
+		if (args[1] < 1000) then
+			v, u = args[1], "MHz"
+		end
+
+		return string.format(" %s%4s%s ", args[5], v, u)
+	end,
+	10, "cpu0")
 
 cpugraph = awful.widget.graph()
 cpugraph:set_width(40)
