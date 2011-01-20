@@ -376,6 +376,8 @@ function change_volume(lower)
 	local sign = '+'
 	if lower == true then
 		sign = '-'
+	else
+		exec("amixer -q set Master on", false)
 	end
 	exec("amixer -q set Master 2dB" .. sign, false)
 	get_volume()
