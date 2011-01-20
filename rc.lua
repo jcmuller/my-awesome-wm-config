@@ -995,8 +995,10 @@ local clientkeys = awful.util.table.join(
 	awful.key({ modkey, "Shift"   }, "r",               function (c) c:redraw() end),
 	awful.key({ modkey, "Shift"   }, "t",               function (c) c.ontop = not c.ontop end),
 	awful.key({ modkey,           }, "n",               toggle_minimized),
+	awful.key({ modkey, "Shift"   }, "n",               toggle_minimized),
 	awful.key({ modkey,           }, "m",               toggle_maximized),
 	awful.key({ modkey,           }, "v",               toggle_maximized_vertical),
+	awful.key({ modkey, "Shift"   }, "v",               toggle_maximized_vertical),
 	awful.key({ modkey,           }, "t",               toggle_titlebar),
 	awful.key({ modkey,           }, "s",               function (c) c.sticky = not c.sticky end),
 
